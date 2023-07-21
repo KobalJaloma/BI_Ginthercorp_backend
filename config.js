@@ -14,6 +14,8 @@ dotenv.config({
 
 console.log("ESTE ES EL ESPACIO ACTUAL " + process.env.NODE_ENV);
 
+
+//EXPORTACION DE LAS VARIABLES DE ENTORNO
 export const config = {
     NODE_ENV:process.env.NODE_ENV,
 
