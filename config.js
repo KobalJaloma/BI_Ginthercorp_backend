@@ -14,7 +14,7 @@ console.log("dirname: " + _dirname + '\n'
 console.log("process: "+ JSON.stringify(process.env));
 
 dotenv.config({
-    path: path.resolve(_dirname, process.env.NODE_ENV + '.env')
+    path: path.resolve(_dirname, (process.env.NODE_ENV || 'production') + '.env')
 });
 
 console.log("ESTE ES EL ESPACIO ACTUAL " + process.env.NODE_ENV);
