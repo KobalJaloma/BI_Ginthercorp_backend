@@ -1,6 +1,6 @@
 
 
-export const autenticar = async(lenght, type) => {
-  
+export const autenticar = async() => {
+    
 };
 

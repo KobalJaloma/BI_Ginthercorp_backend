@@ -21,9 +21,14 @@ export const config = {
 
     HOST:process.env.HOST,
     PORT:process.env.PORT,
-
+    
     DB_ROUTE:process.env.DB_ROUTE,
     DB_NAME:process.env.DB_NAME,
     DB_USER:process.env.DB_USER, 
-    DB_PASSWORD:process.env.DB_PASSWORD
+    DB_PASSWORD:process.env.DB_PASSWORD,
+    
+    DB_ROUTE_DENKEN:process.env.DB_ROUTE_DENKEN,
+    DB_NAME_DENKEN:process.env.DB_NAME_DENKEN,
+    DB_USER_DENKEN:process.env.DB_USER_DENKEN, 
+    DB_PASSWORD_DENKEN:process.env.DB_PASSWORD_DENKEN
 };

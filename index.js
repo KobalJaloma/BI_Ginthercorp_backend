@@ -9,24 +9,22 @@ import { config } from "./config.js";
 
 //TESTING
 import { autenticar } from "./helpers/autenticacion.js";
+import { generarPassword } from "./helpers/generadorContraseñas.js";
+import { testConnect } from "./config/db.js";
 
 const auth = async() => {await autenticar(10, "")}; 
 
 const app = express();
+const testRoutes = express.Router();
 
-app.use('/api/test', (req, res) => {
-    res.send({"message": 'La ruta especificada esta funcionando correctamente'});
+app.use('/api/test', async(req, res) => {
+    var a = await generarPassword(15);
+    res.send({"message": `La ruta especificada esta funcionando correctamente ${a}`});
 });
 
-app.use('/api/test/log', (req, res) => {
-    res.send({"message": '20'});
-});
-
-//RUTAS ESPECIFICAS
-app.use('/', (req, res) => {
-    res.send('PAGINA DE INICIO');
-});
-
+//RUTAS TEST
+app.use('/test', testRoutes);
+testRoutes.get('/db', await testConnect);
 
 //PROTOCOLOS DE WEB
 const httpServer = http.createServer(app);
@@ -42,5 +40,5 @@ app.listen(config.PORT, (res, req) => {
 });
 
 
-//NO SE NECESITARA PRTOCOLO HTTPS -  LEONARDO
+//NO SE NECESITARA PRTOCOLO HTTPS POR EL MOMENTO-  LEONARDO
 
