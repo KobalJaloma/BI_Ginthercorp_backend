@@ -8,6 +8,8 @@ dotenv.config();
 const _filename = fileURLToPath(import.meta.url);
 const _dirname = path.dirname(_filename);
 
+console.log("dirname" + _dirname);
+
 dotenv.config({
     path: path.resolve(_dirname, process.env.NODE_ENV + '.env')
 });
