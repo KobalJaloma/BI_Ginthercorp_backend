@@ -23,8 +23,12 @@ app.use('/api/test', async(req, res) => {
 });
 
 //RUTAS TEST
+app.use('/', (req, res) => {
+    res.send('pagina de inicio')
+});
+
 app.use('/test', testRoutes);
-testRoutes.get('/db', await testConnect);
+testRoutes.get('/db', testConnect);
 
 //PROTOCOLOS DE WEB
 const httpServer = http.createServer(app);
