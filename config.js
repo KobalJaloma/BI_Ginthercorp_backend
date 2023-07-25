@@ -8,7 +8,7 @@ dotenv.config();
 const _filename = fileURLToPath(import.meta.url);
 const _dirname = path.dirname(_filename);
 
-console.log("dirname" + _dirname);
+console.log("dirname " + _dirname + '\n' + 'este es el espacio' + process.env.NODE_ENV);
 
 dotenv.config({
     path: path.resolve(_dirname, process.env.NODE_ENV + '.env')
