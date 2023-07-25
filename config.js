@@ -11,7 +11,7 @@ const _dirname = path.dirname(_filename);
 console.log("dirname: " + _dirname + '\n' 
             + 'Este es el espacio: ' + process.env.NODE_ENV);
 
-console.log("process: "+process.env);
+console.log("process: "+ JSON.stringify(process.env));
 
 dotenv.config({
     path: path.resolve(_dirname, process.env.NODE_ENV + '.env')
