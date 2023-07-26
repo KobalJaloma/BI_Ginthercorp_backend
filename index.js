@@ -10,7 +10,6 @@ import { config } from "./config.js";
 //TESTING
 import { autenticar } from "./helpers/autenticacion.js";
 import { generarPassword } from "./helpers/generadorContraseñas.js";
-import { testConnect } from "./config/db.js";
 
 const auth = async() => {await autenticar(10, "")}; 
 
@@ -28,7 +27,6 @@ app.use('/', (req, res) => {
 });
 
 app.use('/test', testRoutes);
-testRoutes.get('/db', testConnect);
 
 //PROTOCOLOS DE WEB
 const httpServer = http.createServer(app);

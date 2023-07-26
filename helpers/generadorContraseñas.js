@@ -5,7 +5,7 @@ export const generarPassword = async(lenght) => {
     var password = '';
 
     for(var i = 0;i < lenght; i++) {
-        console.log(i);
+        // console.log(i);
         var rn = Math.round(Math.random() * (characters.length - 1));
         // console.log(rn);
         password += characters[rn];
