@@ -2,6 +2,8 @@
 import express from 'express';
 import http from "http";
 import https from "https";
+import swaggerJsDoc from "swagger-jsdoc";
+import swaggerUI from "swagger-ui-express";
 
 //IMPORTACION DE VARIABLES DE ENTORNO
 import { config } from "./config.js";
@@ -10,23 +12,27 @@ import { config } from "./config.js";
 //TESTING
 import { autenticar } from "./helpers/autenticacion.js";
 import { generarPassword } from "./helpers/generadorContraseñas.js";
+import { db } from "./config/db.js";
 
-const auth = async() => {await autenticar(10, "")}; 
 
 const app = express();
-const testRoutes = express.Router();
+const apiRoutes = express.Router();
 
+app.use('/api', (req, res) => {
+    res.send('pagina de inicio')
+});
+
+//RUTAS TEST
 app.use('/api/test', async(req, res) => {
     var a = await generarPassword(15);
     res.send({"message": `La ruta especificada esta funcionando correctamente ${a}`});
 });
 
-//RUTAS TEST
-app.use('/', (req, res) => {
-    res.send('pagina de inicio')
+app.use('/test', (req, res) => {
+    res.send({message: 'hola swagger'})
 });
 
-app.use('/test', testRoutes);
+// app.use('/test', testRoutes);
 
 //PROTOCOLOS DE WEB
 const httpServer = http.createServer(app);
@@ -40,6 +46,48 @@ httpServer.listen(80, () => {
 app.listen(config.PORT, (res, req) => {
     console.log(`Escuchando el puerto ${config.PORT} para el API`);
 });
+
+//SEQUELIZE CONFIG AND SYNC
+try {
+    db.authenticate()
+        .then((response) => console.log('Conexion exitosa a DB: ' + response));
+} catch (error) {
+    console.log('Error de conexion: ' + error);
+}
+
+
+
+//SWAGGER CONFIG
+const swaggerOptions = {
+    definition: {
+        openapi: "3.1.0",
+        info: {
+          title: "LogRocket Express API with Swagger",
+          version: "0.1.0",
+          description:
+            "This is a simple CRUD API application made with Express and documented with Swagger",
+          license: {
+            name: "MIT",
+            url: "https://spdx.org/licenses/MIT.html",
+          },
+          contact: {
+            name: "LogRocket",
+            url: "https://logrocket.com",
+            email: "info@email.com",
+          },
+        },
+        servers: [
+          {
+            url: config.HOST,
+          },
+        ],
+      },
+      apis: ["./routes/*.js"]
+};
+const spec = swaggerJsDoc(swaggerOptions);
+
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(spec, { explorer: true }));
+
 
 
 //NO SE NECESITARA PRTOCOLO HTTPS POR EL MOMENTO-  LEONARDO
