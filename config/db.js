@@ -8,6 +8,8 @@ export const db = new Sequelize(config.DB_NAME, config.DB_USER, config.DB_PASSWO
     dialect: 'mysql'
 });
 
+console.log(JSON.stringify(config));
+
 // const db_denken = new Sequelize(config.DB_NAME_DENKEN, config.DB_USER_DENKEN, config.DB_PASSWORD_DENKEN, {
 //     host: config.DB_ROUTE_DENKEN,
 //     dialect: "mysql"
