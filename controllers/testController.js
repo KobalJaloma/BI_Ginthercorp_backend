@@ -16,10 +16,10 @@ const resError = (arg) => {
 
 export const createTest = async(req, res) => {
     try {
-        const {id, nombre, apellido, usuario, password, 
-            last_update,connection_update} = req.body;
-            
-        console.log("req: " + nombre);
+        
+        console.log("req: " + req.body);
+        console.log("req: " + JSON.stringify(req));
+        
         await Test.create(req.body);
         res.json(resOK(''));
 
