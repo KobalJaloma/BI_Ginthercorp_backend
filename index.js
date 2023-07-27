@@ -14,25 +14,22 @@ import { autenticar } from "./helpers/autenticacion.js";
 import { generarPassword } from "./helpers/generadorContraseñas.js";
 import { db } from "./config/db.js";
 
+//Importacion de Rutas
+import { TestRoute } from "./routes/TestRoute.js";
+
 
 const app = express();
-const apiRoutes = express.Router();
 
-app.use('/api', (req, res) => {
-    res.send('pagina de inicio')
-});
+
+//Establecer Rutas
 
 //RUTAS TEST
-app.use('/api/test', async(req, res) => {
-    var a = await generarPassword(15);
-    res.send({"message": `La ruta especificada esta funcionando correctamente ${a}`});
-});
+app.use('/api/test', TestRoute);
 
-app.use('/test', (req, res) => {
-    res.send({message: 'hola swagger'})
-});
 
-// app.use('/test', testRoutes);
+// app.use('/test', (req, res) => {
+//     res.send({message: 'hola swagger'})
+// });
 
 //PROTOCOLOS DE WEB
 const httpServer = http.createServer(app);
