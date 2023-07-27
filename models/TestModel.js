@@ -4,6 +4,7 @@ import { db } from "../config/db.js";
 export const Test = db.define('testing', {
     id: {
         type: DataTypes.INTEGER,
+        autoIncrement: true,
         primaryKey: true
     },
     nombre: {
