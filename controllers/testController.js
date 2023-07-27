@@ -17,7 +17,7 @@ const resError = (arg) => {
 export const createTest = async(req, res) => {
       
     try {
-        console.log(JSON.stringify(req.body));
+        console.log("req: " + JSON.stringify(req.body));
         const newTest = await Test.create(req.body);
         
         res.json(resOK(''));
