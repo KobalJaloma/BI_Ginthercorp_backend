@@ -3,7 +3,7 @@ import { db } from "../config/db.js";
 
 export const Test = db.define('testing', {
     id: {
-        type: DataTypes.NUMBER,
+        type: DataTypes.INTEGER,
         primaryKey: true
     },
     nombre: {
