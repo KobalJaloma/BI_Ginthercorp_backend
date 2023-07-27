@@ -19,8 +19,8 @@ export const createTest = async(req, res) => {
         
         console.log("req: " + req.body);
         console.log("req: " + JSON.stringify(req));
-        
-        await Test.create(req.body);
+
+        const response = await Test.create(req.body);
         res.json(resOK(''));
 
     } catch (error) {
