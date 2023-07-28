@@ -15,11 +15,9 @@ export const getAllUsuarios = async(req, res) => {
 }
 
 export const getUsuarioById = async(req, res) => {
-    console.log(JSON.stringify(req.query) + '\n' + req.query);
     const id = req.params.id;
-    console.log("Este es el id: " + id);
     const { atributos } = req.query;
-    var atrArray = ['*'];
+    var atrArray;
     
     if(atributos) {
         atrArray = atributos.split(','); //separa por cada como un elemento array
@@ -28,14 +26,16 @@ export const getUsuarioById = async(req, res) => {
         res.json(errorRes({}, 'El id no fue recibido de forma correcta'));
         return;
     }   
-    try {
-        const usuario = await Usuario.findAll({
-            attributes: atrArray,
-            where: {
-                id: id
-            }
-        });
 
+    //variables para control del query de sequelize
+    const condicionConf = { where: { id: id } };
+    const atributosConf = { attributes: atrArray };
+    //SE EVALUA SI EXISTEN ATRIBUTOS PARA PODER FILTRAR LAS OPCIONES
+    const condicionesSeq = atrArray ? {...atributosConf, ...condicionConf} : condicionConf;  
+
+    try {
+        const usuario = await Usuario.findAll(condicionesSeq);
+        
         res.json(usuario);
     } catch (error) {
         res.json(errorRes(error, 'No se encontro el usuario o su id es incorrecto'));
