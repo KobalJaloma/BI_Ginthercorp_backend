@@ -19,9 +19,11 @@ export const getUsuarioById = async(req, res) => {
     const { atributos } = req.query;
     var atrArray;
     
+    //EVALUAR SI EXISTE ATRIBUTOS
     if(atributos) {
         atrArray = atributos.split(','); //separa por cada como un elemento array
     }
+    // EVALUAR SI EL ID EXISTE
     if(!id) {
         res.json(errorRes({}, 'El id no fue recibido de forma correcta'));
         return;
