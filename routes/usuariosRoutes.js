@@ -78,7 +78,7 @@ usuariosRoutes.post('/', createUsuario);
  *                       description: Usuario creado con exito
  *                   '400':
  *                       description: Error en la solicitud
- *       /usuarios/{:id}
+ *       /usuarios/{:id}:
  *           get:
  *              summary: Obtiene un usuario por id
  *              description: Obtiene un usuario por el numero de id
