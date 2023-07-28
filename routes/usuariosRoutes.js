@@ -49,44 +49,44 @@ usuariosRoutes.post('/', createUsuario);
  */
 
 
-// /**
-//  * @swagger
-//  * paths:
-//  *  /usuarios:
-//  *      get:
-//  *          summary: Obtiene lista de los usuarios
-//  *          description: Obtiene la lista de todos los usuarios
-//  *          responses: 
-//  *              '200':
-//  *                  descripcion: Usuarios obtenidos con exito
-//  *                  content: 
-//  *                      application/json:
-//  *                          schema: 
-//  *                              type: json
-//  *                              items:
-//  *                                  $ref: '#/components/schemas/Usuarios'
-//  *                             
-//  *      post: 
-//  *          summary: Crea un usuario
-//  *          description: Crea un nuevo usuario en el sistema
-//  *          requestBody:
-//  *              requiered: true
-//  *              content:
-//  *                  application/json:   
-//  *                      example: lol
-//  *                     
-//  *          responses: 
-//  *              '201': 
-//  *                  description: Usuario creado con exito
-//  *              '400':
-//  *                  description: Error en la solicitud
-//  *   /usuarios/{:id}
-//  *      get:
-//  *          summary: Obtiene un usuario por id
-//  *          description: Obtiene un usuario por el numero de id
-//  *          responses:
-//  *              '200': 
-//  *                  description: Retorna un json con los datos especificados.
-//  *                  
-//  */
+/**
+ * @swagger
+ * paths:
+ *  /usuarios:
+ *      get:
+ *          summary: Obtiene lista de los usuarios
+ *          description: Obtiene la lista de todos los usuarios
+ *          responses: 
+ *              '200':
+ *                  descripcion: Usuarios obtenidos con exito
+ *                  content: 
+ *                      application/json:
+ *                          schema: 
+ *                              type: json
+ *                              items:
+ *                                  $ref: '#/components/schemas/Usuarios'
+ *                             
+ *      post: 
+ *          summary: Crea un usuario
+ *          description: Crea un nuevo usuario en el sistema
+ *          requestBody:
+ *              requiered: true
+ *              content:
+ *                  application/json:   
+ *                      example: lol
+ *                     
+ *          responses: 
+ *              '201': 
+ *                  description: Usuario creado con exito
+ *              '400':
+ *                  description: Error en la solicitud
+ *   /usuarios/{:id}
+ *      get:
+ *          summary: Obtiene un usuario por id
+ *          description: Obtiene un usuario por el numero de id
+ *          responses:
+ *              '200': 
+ *                  description: Retorna un json con los datos especificados.
+ *                  
+ */
 
