@@ -42,7 +42,7 @@ httpServer.listen(80, () => {
 
 
 //PUERTO ESPECIFICADO PARA TENER EL API
-app.listen(config.PORT, (res, req) => {
+app.listen(config.PORT, (req, res) => {
     console.log(`Escuchando el puerto ${config.PORT} para el API`);
 });
 
