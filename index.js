@@ -1,5 +1,6 @@
 //IMPORTACIONES DE CONFIGRACIONES
 import express from 'express';
+import bodyParser from "body-parser"; //MIDDLEWARE PARA req.body
 import http from "http";
 import https from "https";
 import swaggerJsDoc from "swagger-jsdoc";
@@ -21,12 +22,15 @@ import { usuariosRoutes } from "./routes/usuariosRoutes.js";
 
 const app = express();
 
+//se configura el body parser para poder utilizar el req.body - MIDDLEWARE
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
 
 //Establecer Rutas
+app.use('/api/usuarios', usuariosRoutes);
 
 //RUTAS TEST
 app.use('/api/test', TestRoute);
-app.use('/api/usuarios', usuariosRoutes);
 
 
 // app.use('/test', (req, res) => {
