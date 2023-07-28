@@ -22,10 +22,8 @@ usuariosRoutes.post('/', createUsuario);
  *                  descripcion: Usuarios obtenidos con exito
  *                  content: 
  *                      application/json:
- *                          example: 
- *                              {
- *                                  "nombre": "Pedro"
- *                              }
+ *                          example: lol
+ *                             
  *      post: 
  *          summary: Crea un usuario
  *          description: Crea un nuevo usuario en el sistema
@@ -33,10 +31,8 @@ usuariosRoutes.post('/', createUsuario);
  *              requiered: true
  *              content:
  *                  application/json:   
- *                      example: 
- *                      {
- *                          "nombre": "Pedro",
- *                      }
+ *                      example: lol
+ *                     
  *          responses: 
  *              '201': 
  *                  description: Usuario creado con exito
