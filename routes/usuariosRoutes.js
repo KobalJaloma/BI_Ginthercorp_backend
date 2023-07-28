@@ -11,19 +11,35 @@ usuariosRoutes.get('/:id', getUsuarioById); //se le pasa el id
 usuariosRoutes.post('/', createUsuario);
 
 /**
- * 
+ * @swagger
  * paths:
- *     /users:
- *         get:
- *             summary: Returns a list of users.
- *             description: Optional extended description in CommonMark or HTML
- *             responses:
- *                 '200':
- *                     description: A JSON array of user names
- *                     content:
- *                         application/json:
- *                     schema: 
- *                         type: array
- *                         items: 
- *                             type: string
-*/
+ *  /usuarios:
+ *      get:
+ *          summary: Obtiene lista de los usuarios
+ *          description: Obtiene la lista de todos los usuarios
+ *          repsonses: 
+ *              '200':
+ *                  descripcion: Usuarios obtenidos con exito
+ *                  content: 
+ *                      application/json:
+ *                          example: |
+ *                              {
+ *                                  
+ *                              }
+ *      post: 
+ *          summary: Crea un usuario
+ *          description: Crea un nuevo usuario en el sistema
+ *          requestBody:
+ *              requiered: true
+ *              content:
+ *                  application/json:   
+ *                      example: |
+ *                      {
+ *                      
+ *                      }
+ *          responses: 
+ *              '201': 
+ *                  description: Usuario creado con exito
+ *              '400':
+ *                  description: Error en la solicitud
+ */

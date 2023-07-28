@@ -16,6 +16,7 @@ import { db } from "./config/db.js";
 
 //Importacion de Rutas
 import { TestRoute } from "./routes/TestRoute.js";
+import { usuariosRoutes } from "./routes/usuariosRoutes.js";
 
 
 const app = express();
@@ -25,6 +26,7 @@ const app = express();
 
 //RUTAS TEST
 app.use('/api/test', TestRoute);
+app.use('api/usuarios', usuariosRoutes);
 
 
 // app.use('/test', (req, res) => {
@@ -83,7 +85,7 @@ const swaggerOptions = {
 };
 const spec = swaggerJsDoc(swaggerOptions);
 
-app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(spec, { explorer: true }));
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(spec, { explorer: false }));
 
 
 
