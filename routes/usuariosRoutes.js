@@ -22,7 +22,7 @@ usuariosRoutes.post('/', createUsuario);
  *                  descripcion: Usuarios obtenidos con exito
  *                  content: 
  *                      application/json:
- *                          example: |
+ *                          example: 
  *                              {
  *                                  "nombre": "Pedro"
  *                              }
@@ -33,7 +33,7 @@ usuariosRoutes.post('/', createUsuario);
  *              requiered: true
  *              content:
  *                  application/json:   
- *                      example: |
+ *                      example: 
  *                      {
  *                          "nombre": "Pedro",
  *                      }
