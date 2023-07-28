@@ -25,7 +25,7 @@ TestRoute.post('/', createTest);
  *              description: Autogenerado por cada registro
  *          nombre:
  *              type: string
- *              descripcion: Nombre de la persona
+ *              description: Nombre de la persona
  *          apellido: 
  *              type: string
  *              description: Apellido de la persona
@@ -49,4 +49,19 @@ TestRoute.post('/', createTest);
  *          password: h12smkm#4dsak
  *          connection_key: LsDGsdn83#%saDJLb
  *          last_update: 2023-06-20T04:05:06.157Z
+ *      paths: 
+ *          /test
+ *              get:
+ *                  summary: Returns all tests
+ *              required: true
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/Test'
+ *              responses:
+ *                  '201': 
+ *                      description: Todos Obtenidos 
+ *                  
+ *              
+ *                
  */
