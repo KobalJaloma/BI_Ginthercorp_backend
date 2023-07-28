@@ -58,7 +58,7 @@ usuariosRoutes.post('/', createUsuario);
  *               description: Obtiene la lista de todos los usuarios
  *               responses: 
  *                   '200':
- *                       descripcion: Usuarios obtenidos con exito
+ *                       description: Usuarios obtenidos con exito
  *                       content: 
  *                           application/json:
  *                           schema: 
@@ -82,6 +82,14 @@ usuariosRoutes.post('/', createUsuario);
  *           get:
  *              summary: Obtiene un usuario por id
  *              description: Obtiene un usuario por el numero de id
+ *              parameters:
+ *                  - name: id
+ *                  in: path
+ *                  required: true
+ *                  description: paramentro para extraer informacion de un usuario
+ *                  schema:
+ *                      type: integer
+ *                      minimum: 1
  *           responses:
  *               '200': 
  *                   description: Retorna un json con los datos especificados.
