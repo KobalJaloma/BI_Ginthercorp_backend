@@ -26,7 +26,7 @@ const app = express();
 
 //RUTAS TEST
 app.use('/api/test', TestRoute);
-app.use('api/usuarios', usuariosRoutes);
+app.use('/api/usuarios', usuariosRoutes);
 
 
 // app.use('/test', (req, res) => {
