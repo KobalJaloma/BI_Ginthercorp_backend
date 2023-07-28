@@ -24,7 +24,7 @@ usuariosRoutes.post('/', createUsuario);
  *                      application/json:
  *                          example: |
  *                              {
- *                                  
+ *                                  "nombre": "Pedro"
  *                              }
  *      post: 
  *          summary: Crea un usuario
@@ -35,7 +35,7 @@ usuariosRoutes.post('/', createUsuario);
  *                  application/json:   
  *                      example: |
  *                      {
- *                      
+ *                          "nombre": "Pedro",
  *                      }
  *          responses: 
  *              '201': 
