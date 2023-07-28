@@ -24,9 +24,11 @@ export const Test = db.define('testing', {
     },
     last_update: {
         type: DataTypes.DATE
-    },
+    }
 });
 
 (async() => {
     await db.sync();
 })();
+
+
