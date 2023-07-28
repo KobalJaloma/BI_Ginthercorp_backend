@@ -19,7 +19,7 @@ TestRoute.post('/', createTest);
  *      required:
  *          -id
  *          -connection_key
- *      properties:
+ *      properties:           
  *          id:
  *              type: int
  *              description: Autogenerado por cada registro
