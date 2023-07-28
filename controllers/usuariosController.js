@@ -1,6 +1,6 @@
 import { Usuario } from "../models/UsuariosModel.js";
 import { successRes, errorRes } from "../types/responseTypes.js";
-
+import { atributosControl } from "../types/sequelizeControl.js";
 
 //GETS
 export const getAllUsuarios = async(req, res) => {
@@ -29,9 +29,8 @@ export const getUsuarioById = async(req, res) => {
 
     //variables para control del query de sequelize
     const condicionConf = { where: { id: id } };
-    const atributosConf = { attributes: atrArray };
     //SE EVALUA SI EXISTEN ATRIBUTOS PARA PODER FILTRAR LAS OPCIONES
-    const condicionesSeq = atrArray ? {...atributosConf, ...condicionConf} : condicionConf;  
+    const condicionesSeq = atrArray ? {...atributosControl(atrArray), ...condicionConf} : condicionConf;  
 
     try {
         const usuario = await Usuario.findAll(condicionesSeq);
