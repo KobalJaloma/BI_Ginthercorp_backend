@@ -20,32 +20,32 @@ usuariosRoutes.post('/', createUsuario);
  * components:
  *  schemas:
  *   Usuarios: 
- *    type: object
- *    required:
- *      - id
- *      - usuario
- *    properties:
- *      id:
- *          type: int
- *          description: Clave Unica, autoincremental
- *      nombre: 
- *          type: string
- *          description: Nombre de la persona
- *      apellido:   
- *          type: string
- *          description: Apellido de la persona
- *      usuario: 
- *          type: string
- *          description: Nombre de usuario de la plataforma
- *      paswword: 
- *          type: string
- *          description: Contraseña de la cuenta de usuario
- *     example:
- *      id: 103
- *      nombre: Leonardo
- *      apellido: Jaloma
- *      usuario: leonardo.jal
- *      password: loMisde34@!nds2DG
+ *      type: object
+ *      required:
+ *          - id
+ *          - usuario
+ *      properties:
+ *          id:
+ *              type: int
+ *              description: Clave Unica, autoincremental
+ *          nombre: 
+ *              type: string
+ *              description: Nombre de la persona
+ *          apellido:   
+ *              type: string
+ *              description: Apellido de la persona
+ *          usuario: 
+ *              type: string
+ *              description: Nombre de usuario de la plataforma
+ *          paswword: 
+ *              type: string
+ *              description: Contraseña de la cuenta de usuario
+ *      example:
+ *          id: 103
+ *          nombre: Leonardo
+ *          apellido: Jaloma
+ *          usuario: leonardo.jal
+ *          password: loMisde34@!nds2DG
  */
 
 
