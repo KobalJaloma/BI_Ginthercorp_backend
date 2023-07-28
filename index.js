@@ -59,18 +59,18 @@ const swaggerOptions = {
     definition: {
         openapi: "3.1.0",
         info: {
-          title: "LogRocket Express API with Swagger",
+          title: "API BI Ginthercorp",
           version: "0.1.0",
           description:
-            "This is a simple CRUD API application made with Express and documented with Swagger",
+            "Documentacion del API de la aplicacion BI Ginthercorp",
           license: {
-            name: "MIT",
-            url: "https://spdx.org/licenses/MIT.html",
+            name: "",
+            url: "",
           },
           contact: {
-            name: "LogRocket",
-            url: "https://logrocket.com",
-            email: "info@email.com",
+            name: "Sistemas Ginthercorp",
+            url: "",
+            email: "sistemas@ginthercorp.com",
           },
         },
         servers: [
