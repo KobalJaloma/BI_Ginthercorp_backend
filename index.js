@@ -61,32 +61,108 @@ try {
 
 
 //SWAGGER CONFIG
+// const swaggerOptions = {
+//     definition: {
+//         openapi: "3.1.0",
+//         info: {
+//           title: "API BI Ginthercorp",
+//           version: "0.1.0",
+//           description:
+//             "Documentacion del API de la aplicacion BI Ginthercorp",
+//           license: {
+//             name: "",
+//             url: "",
+//           },
+//           contact: {
+//             name: "Sistemas Ginthercorp",
+//             url: "",
+//             email: "sistemas@ginthercorp.com",
+//           },
+//         },
+//         servers: [
+//           {
+//             url: config.HOST,
+//           },
+//         ],
+//       },
+//       apis: ["./routes/*.js"]
+// };
+
+
 const swaggerOptions = {
-    definition: {
-        openapi: "3.1.0",
-        info: {
-          title: "API BI Ginthercorp",
-          version: "0.1.0",
-          description:
-            "Documentacion del API de la aplicacion BI Ginthercorp",
-          license: {
-            name: "",
-            url: "",
-          },
-          contact: {
-            name: "Sistemas Ginthercorp",
-            url: "",
-            email: "sistemas@ginthercorp.com",
-          },
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API de ejemplo",
+    "version": "1.0.0",
+    "description": "Una API de ejemplo con Swagger"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000" // Reemplaza con la URL de tu servidor
+    }
+  ],
+  "paths": {
+    "/api/greet": {
+      "get": {
+        "summary": "Saludo de bienvenida",
+        "responses": {
+          "200": {
+            "description": "Respuesta exitosa",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/add": {
+      "post": {
+        "summary": "Sumar dos números",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "num1": {
+                    "type": "number"
+                  },
+                  "num2": {
+                    "type": "number"
+                  }
+                },
+                "required": ["num1", "num2"]
+              }
+            }
+          }
         },
-        servers: [
-          {
-            url: config.HOST,
-          },
-        ],
-      },
-      apis: ["./routes/*.js"]
+        "responses": {
+          "200": {
+            "description": "Respuesta exitosa",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 };
+
 const spec = swaggerJsDoc(swaggerOptions);
 
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(spec, { explorer: false }));
