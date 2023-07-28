@@ -80,8 +80,8 @@ usuariosRoutes.post('/', createUsuario);
  *                       description: Error en la solicitud
  *       /usuarios/{:id}
  *           get:
- *           summary: Obtiene un usuario por id
- *           description: Obtiene un usuario por el numero de id
+ *              summary: Obtiene un usuario por id
+ *              description: Obtiene un usuario por el numero de id
  *           responses:
  *               '200': 
  *                   description: Retorna un json con los datos especificados.
