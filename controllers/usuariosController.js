@@ -17,6 +17,7 @@ export const getAllUsuarios = async(req, res) => {
 export const getUsuarioById = async(req, res) => {
     console.log(JSON.stringify(req.query) + '\n' + req.query);
     const id = req.params.id;
+    console.log("Este es el id: " + id);
     const { atributos } = req.query;
     var atrArray = ['*'];
     
