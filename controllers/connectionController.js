@@ -7,7 +7,7 @@ export const getAllConnections = async(req, res) => {
   try {
     const { atributos } = req.query;
     const condicionSeq = {...atributosControl(atributos)};
-    const connections = Connection.findAll(condicionSeq);
+    const connections = await Connection.findAll(condicionSeq);
     
     res.json(connections);
 
@@ -30,7 +30,7 @@ export const createConnection = async(req, res) => {
     key: password
   }
 
-  const connection = Connection.create(payload);
+  const connection = await Connection.create(payload);
 
   successRes(`La Clave Se Creo Con Exito: ${password}`);
   
