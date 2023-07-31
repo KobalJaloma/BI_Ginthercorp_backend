@@ -12,7 +12,7 @@ export const getAllConnections = async(req, res) => {
     res.json(connections);
 
   } catch (error) {
-    errorRes(error, 'No se pudieron extraer las claves!');
+    res.json(errorRes(error, 'No se pudieron extraer las claves!'));
   }
 }
 
@@ -24,17 +24,20 @@ export const createConnection = async(req, res) => {
   const password = await generarPassword(passControl);
   
   if(password < passControl) {
-    errorRes('','La contraseña se genero de forma erronea');
+    res.json(errorRes('','La contraseña se genero de forma erronea'));
   }
+
+  console.log("Password: " + password);
+
   const payload = {
     key: password
   }
 
   const connection = await Connection.create(payload);
 
-  successRes(`La Clave Se Creo Con Exito: ${password}`);
+  res.json(successRes(`La Clave Se Creo Con Exito: ${password}`));
   
  } catch (error) {
-  errorRes(error, 'La Clave No Se Pudo Crear Con Exito');
+  res.json(errorRes(error, 'La Clave No Se Pudo Crear Con Exito'));
  }
 }
