@@ -6,7 +6,7 @@ import { atributosControl } from "../types/sequelizeControl.js";
 export const getAllUsuarios = async(req, res) => {
     try {
         const usuarios = await Usuario.findAll();
-        
+        console.log(req.params.key);
         res.json(usuarios);
 
     } catch (error) {

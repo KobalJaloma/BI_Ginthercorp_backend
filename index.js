@@ -18,6 +18,7 @@ import { db } from "./config/db.js";
 //Importacion de Rutas
 import { TestRoute } from "./routes/TestRoute.js";
 import { usuariosRoutes } from "./routes/usuariosRoutes.js";
+import { connectionRoutes } from "./routes/conecctionRoute.js";
 
 
 const app = express();
@@ -27,7 +28,8 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
 //Establecer Rutas
-app.use('/api/usuarios', usuariosRoutes);
+app.use('/api/:key/usuarios', usuariosRoutes);
+app.use('/api/:key/connect', connectionRoutes);
 
 //RUTAS TEST
 app.use('/api/test', TestRoute);
