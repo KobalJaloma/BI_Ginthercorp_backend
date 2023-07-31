@@ -27,6 +27,7 @@ const app = express();
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
+
 //Establecer Rutas
 app.use('/api/usuarios', usuariosRoutes);
 app.use('/api/connect', connectionRoutes);

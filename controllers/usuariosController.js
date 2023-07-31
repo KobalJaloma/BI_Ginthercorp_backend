@@ -1,13 +1,16 @@
 import { Usuario } from "../models/UsuariosModel.js";
 import { successRes, errorRes } from "../types/responseTypes.js";
 import { atributosControl } from "../types/sequelizeControl.js";
+import { autenticar } from "../helpers/autenticacion.js";
+
 
 //GETS
 export const getAllUsuarios = async(req, res) => {
     try {
+        const { key } = req.params;
+        await autenticar(key, res);
+
         const usuarios = await Usuario.findAll();
-        console.log(req.params.key);
-        console.log(JSON.stringify(req.params));
         res.json(usuarios);
 
     } catch (error) {
