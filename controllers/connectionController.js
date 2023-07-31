@@ -7,6 +7,7 @@ export const getAllConnections = async(req, res) => {
   try {
     const { atributos } = req.query;
     const condicionSeq = {...atributosControl(atributos)};
+    console.log(JSON.stringify(condicionSeq));
     const connections = await Connection.findAll(condicionSeq);
     
     res.json(connections);
