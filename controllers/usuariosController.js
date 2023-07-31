@@ -7,6 +7,7 @@ export const getAllUsuarios = async(req, res) => {
     try {
         const usuarios = await Usuario.findAll();
         console.log(req.params.key);
+        console.log(JSON.stringify(req.params))
         res.json(usuarios);
 
     } catch (error) {
