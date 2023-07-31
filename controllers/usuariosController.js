@@ -8,7 +8,7 @@ import { autenticar } from "../helpers/autenticacion.js";
 export const getAllUsuarios = async(req, res) => {
     try {
         const { key } = req.params;
-        await autenticar(key, res);
+        // await autenticar(key, res);
 
         const usuarios = await Usuario.findAll();
         res.json(usuarios);
