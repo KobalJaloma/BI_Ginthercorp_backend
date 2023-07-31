@@ -28,8 +28,8 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
 //Establecer Rutas
-app.use('/api/:key/usuarios', usuariosRoutes);
-app.use('/api/:key/connect', connectionRoutes);
+app.use('/api/usuarios', usuariosRoutes);
+app.use('/api/connect', connectionRoutes);
 
 //RUTAS TEST
 app.use('/api/test', TestRoute);
