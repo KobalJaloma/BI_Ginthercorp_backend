@@ -1,7 +1,7 @@
 import { Connection } from "../models/ConnectionModel.js";
 import { errorRes, successRes } from "../types/responseTypes.js";
 import { atributosControl } from "../types/sequelizeControl.js";
-import { generarPassword } from "../helpers";
+import { generarPassword } from "../helpers/generadorContraseñas.js";
 
 export const getAllConnections = async(req, res) => {
   try {
@@ -29,7 +29,7 @@ export const createConnection = async(req, res) => {
   const payload = {
     key: password
   }
-  
+
   const connection = Connection.create(payload);
 
   successRes(`La Clave Se Creo Con Exito: ${password}`);
