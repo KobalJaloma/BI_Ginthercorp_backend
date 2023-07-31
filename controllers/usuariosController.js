@@ -7,7 +7,7 @@ export const getAllUsuarios = async(req, res) => {
     try {
         const usuarios = await Usuario.findAll();
         console.log(req.params.key);
-        console.log(JSON.stringify(req.params))
+        console.log(JSON.stringify(req.params));
         res.json(usuarios);
 
     } catch (error) {
@@ -19,6 +19,9 @@ export const getUsuarioById = async(req, res) => {
     const id = req.params.id;
     const { atributos } = req.query;
     var atrArray;
+
+    console.log(req.params.key);
+    console.log(JSON.stringify(req.params));
     
     //EVALUAR SI EXISTE ATRIBUTOS
     if(atributos) {
