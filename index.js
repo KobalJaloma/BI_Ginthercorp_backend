@@ -5,6 +5,7 @@ import http from "http";
 import https from "https";
 import swaggerJsDoc from "swagger-jsdoc";
 import swaggerUI from "swagger-ui-express";
+import { swagger } from "./swagger-docs/swagger.js";
 
 //IMPORTACION DE VARIABLES DE ENTORNO
 import { config } from "./config.js";
@@ -19,6 +20,7 @@ import { db } from "./config/db.js";
 import { TestRoute } from "./routes/TestRoute.js";
 import { usuariosRoutes } from "./routes/usuariosRoutes.js";
 import { connectionRoutes } from "./routes/conecctionRoute.js";
+import { catCuentasBancos } from "./routes/CatCuentasBancosRoutes.js";
 
 
 const app = express();
@@ -31,6 +33,7 @@ app.use(bodyParser.json());
 //Establecer Rutas
 app.use('/api/usuarios', usuariosRoutes);
 app.use('/api/connect', connectionRoutes);
+app.use('/api/catcuentasbancos', catCuentasBancos);
 
 //RUTAS TEST
 app.use('/api/test', TestRoute);
@@ -95,7 +98,8 @@ const swaggerOptions = {
 
 const spec = swaggerJsDoc(swaggerOptions);
 
-app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(spec, { explorer: false }));
+// app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(spec, { explorer: false }));
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swagger));
 
 
 

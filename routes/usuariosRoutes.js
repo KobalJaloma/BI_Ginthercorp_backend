@@ -26,7 +26,7 @@ usuariosRoutes.post('/', createUsuario);
  *          - usuario
  *      properties:
  *          id:
- *              type: int
+ *              type: integer
  *              description: Clave Unica, autoincremental
  *          nombre: 
  *              type: string
@@ -56,6 +56,8 @@ usuariosRoutes.post('/', createUsuario);
  *           get:
  *               summary: Obtiene lista de los usuarios
  *               description: Obtiene la lista de todos los usuarios
+ *               tags:
+ *                  - Usuarios
  *               responses: 
  *                   '200':
  *                       description: Usuarios obtenidos con exito
@@ -68,11 +70,13 @@ usuariosRoutes.post('/', createUsuario);
  *           post: 
  *               summary: Crea un usuario
  *               description: Crea un nuevo usuario en el sistema
+ *               tags:
+ *                  - Usuarios
  *               requestBody:
  *                   requiered: true
  *                   content:
  *                       application/json:   
- *                       example: lol
+ *                          example: lol
  *               responses: 
  *                   '201': 
  *                       description: Usuario creado con exito
@@ -82,17 +86,11 @@ usuariosRoutes.post('/', createUsuario);
  *           get:
  *              summary: Obtiene un usuario por id
  *              description: Obtiene un usuario por el numero de id
- *              parameters:
- *                  - name: id
- *                  in: path
- *                  required: true
- *                  description: paramentro para extraer informacion de un usuario
- *                  schema:
- *                      type: integer
- *                      minimum: 1
- *           responses:
- *               '200': 
- *                   description: Retorna un json con los datos especificados.
+ *              tags:
+ *                - Usuarios
+ *              responses:
+ *                  '200': 
+ *                      description: Retorna un json con los datos especificados.
  *                  
  */
 

@@ -12,3 +12,11 @@ export const errorRes = (error, arg) => {
         error: error
     }
 }
+
+export const authErrorRes = () => {
+    return {
+        status: 'ERROR',
+        message: 'Hubo un error con tu clave cifrada',
+        error: 'AUTH'
+    }
+}

@@ -6,13 +6,8 @@ import { generarPassword } from "../helpers/generadorContraseñas.js";
 export const getAllConnections = async(req, res) => {
   try {
     const { atributos } = req.query;
-    var atrArray; 
-    if(atributos) {
-      atrArray = atributos.split(','); //separa por cada como un elemento array
-    }
     
-    const condicionSeq = {...atributosControl(atrArray)};
-    const connections = await Connection.findAll({});
+    const connections = await Connection.findAll(atributosControl(atributos));
     
     res.json(connections);
 
