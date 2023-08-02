@@ -23,8 +23,38 @@ export const usuariosRoutes = {
       'description': 'crea un nuevo usuario en el sistema',
       'tags': ['Usuarios'],
       'requestBody': {
-        'required' : true
+        'required' : true,
+        'content': {
+          'application/json': {
+            'schema': {
+              'type': 'object',
+              'properties': {
+                'id': {
+                  'type': 'integer',
+                  example: 200
+                }, 
+                'nombre': {
+                  'type': 'string',
+                  example: 'Luis'
+                }, 
+                'apellido': {
+                  'type': 'string',
+                  example: 'Garcia',
+                }, 
+                'usuario': {
+                  'type': 'string',
+                  example: 'Luis.Garcia',
+                }, 
+                'password': {
+                  'type': 'string',
+                  example: 'LU1sG4Rc1a',
+                }, 
+              }
+            }
+          }
+        }
       },
+
       'responses': {
         '201': {
           'description':'Usuario creado con exito'
@@ -47,12 +77,21 @@ export const usuariosRoutes = {
       },
       'parameters': [
         {
+          'name': 'id',
+          'in': 'path',
+          'description': 'Filtrado por id de la peticion',
+          'required': true,
+        },
+        {
           'name': 'atributos',
           'in': 'query',
           'description': 'Filtrado de columnas en la peticion',
           'required': false,
-        }
-      ]
+        },
+      ],
+      'examples': {
+        
+      }
     }
   }
 }
