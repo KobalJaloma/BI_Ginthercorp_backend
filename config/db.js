@@ -10,11 +10,10 @@ export const db = new Sequelize(config.DB_NAME, config.DB_USER, config.DB_PASSWO
 
 console.log(JSON.stringify(config));
 
-// const db_denken = new Sequelize(config.DB_NAME_DENKEN, config.DB_USER_DENKEN, config.DB_PASSWORD_DENKEN, {
-//     host: config.DB_ROUTE_DENKEN,
-//     dialect: "mysql"
-// });
-
+export const db_denken = new Sequelize(config.DB_NAME_DENKEN, config.DB_USER_DENKEN, config.DB_PASSWORD_DENKEN, {
+    host: config.DB_ROUTE_DENKEN,
+    dialect: "mysql"
+});
 
 // try {
 //   await db.authenticate();
@@ -22,7 +21,6 @@ console.log(JSON.stringify(config));
 //   console.log('La conexion a BI se establecio de manera correcta.');
 //   res.send({'message' : 'La conexion a BI se establecio de manera correcta.'});
   
-//   await db_denken.authenticate();
 //   console.log('La conexion a BI se establecio de manera correcta.');
 // } catch (error) {
 //   res.send({'message' : `No se puede conectar a la base de datos: ${error}`});

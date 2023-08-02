@@ -14,13 +14,14 @@ import { config } from "./config.js";
 //TESTING
 import { autenticar } from "./helpers/autenticacion.js";
 import { generarPassword } from "./helpers/generadorContraseñas.js";
-import { db } from "./config/db.js";
+import { db, db_denken } from "./config/db.js";
 
 //Importacion de Rutas
 import { TestRoute } from "./routes/TestRoute.js";
 import { usuariosRoutes } from "./routes/usuariosRoutes.js";
 import { connectionRoutes } from "./routes/conecctionRoute.js";
 import { catCuentasBancos } from "./routes/CatCuentasBancosRoutes.js";
+import { catTipoMovimientosRoutes } from "./routes/catTipoMovimientosBancoRoutes.js";
 
 
 const app = express();
@@ -34,6 +35,8 @@ app.use(bodyParser.json());
 app.use('/api/usuarios', usuariosRoutes);
 app.use('/api/connect', connectionRoutes);
 app.use('/api/catcuentasbancos', catCuentasBancos);
+app.use('/api/cattipomovimientos', catTipoMovimientosRoutes);
+
 
 //RUTAS TEST
 app.use('/api/test', TestRoute);
@@ -59,7 +62,9 @@ app.listen(config.PORT, (req, res) => {
 //SEQUELIZE CONFIG AND SYNC
 try {
     db.authenticate()
-        .then((response) => console.log('Conexion exitosa a DB: ' + response));
+        .then((response) => console.log('Conexion exitosa a DB'));
+    // db_denken.authenticate()
+    //     .then((response) => console.log('Conexion exitosa a DB_denken'));
 } catch (error) {
     console.log('Error de conexion: ' + error);
 }
