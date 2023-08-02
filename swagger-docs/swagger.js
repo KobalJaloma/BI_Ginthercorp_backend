@@ -1,35 +1,26 @@
 import { ruta } from "./testSwag.js";
-import { usuariosRoutes, conectionRoute } from "./rutas/index.js";
-
+import { usuariosRoutes, conectionRoute, catCuentaBancosRoutes } from "./rutas/index.js";
+import { usuariosSchema, connectionSchema, catCuentasBancos, catTipoMovimientoSchema } from "./schemas/index.js";
 //MODULOS DE DOCUMENTACION - JSON - SWAGGER
 export const swagger = {
   "openapi": "3.0.0",
   "info": {
-    "title": "Mi API",
-    "version": "1.0.0",
-    "description": "Descripción de mi API"
+    "title": "BI_Ginthersoft",
+    "version": "0.1.0",
+    "description": "Backend del sistema BI"
   },
   "paths": {
-    ...ruta,
+    // ...ruta,
     ...usuariosRoutes,
-    ...conectionRoute
+    ...conectionRoute,
+    ...catCuentaBancosRoutes,
   },
   "components" : {
     "schemas" : {
-      "Connection" : {
-        "type" : 'object',
-        "required": ['key', 'id'],
-        "properties" : {
-          "id" : {
-            "type" : "integer",
-            "description" : 'Clave unica, autoincremental'
-          },
-          "key" : {
-            "type" : "string",
-            "description" : 'Cifrado para enlazar conexion.'
-          },
-        }
-      }
+      ...usuariosSchema,
+      ...connectionSchema,
+      ...catCuentasBancos,
+      ...catTipoMovimientoSchema,
     }
   }
 }
