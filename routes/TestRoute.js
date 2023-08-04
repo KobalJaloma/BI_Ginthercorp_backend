@@ -1,4 +1,4 @@
-import { createTest, getAllTests } from "../controllers/testController.js";
+import { createTest, getAllTests } from "../controllers/BI/testController.js";
 import express from "express";
 
 export const TestRoute = express.Router();

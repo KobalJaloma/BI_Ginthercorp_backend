@@ -1,5 +1,5 @@
 import express from "express";
-import { getAllConnections, createConnection } from "../controllers/connectionController.js";
+import { getAllConnections, createConnection } from "../controllers/BI/connectionController.js";
 
 export const connectionRoutes = express.Router();
 
