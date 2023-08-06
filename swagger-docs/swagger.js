@@ -18,6 +18,14 @@ export const swagger = {
     ...usuariosRoutes,
     ...conectionRoute,
     ...catCuentaBancosRoutes,
+    
+    ...BitacoraCuentasCompromisos,
+    ...BitacoraCuentasLogica,
+    ...BitacoraCuentasPromesas,
+    ...PivoteCuentasCompromisos,
+    ...PivoteCuentasLogicas,
+    ...PivoteCuentasPromesas,
+    ...PivoteCuentasReales,
   },
   "components" : {
     "schemas" : {
@@ -25,13 +33,6 @@ export const swagger = {
       ...connectionSchema,
       ...catCuentasBancos,
       ...catTipoMovimientoSchema,
-      ...BitacoraCuentasCompromisos,
-      ...BitacoraCuentasLogica,
-      ...BitacoraCuentasPromesas,
-      ...PivoteCuentasCompromisos,
-      ...PivoteCuentasLogicas,
-      ...PivoteCuentasPromesas,
-      ...PivoteCuentasReales,
     }
   }
 }
