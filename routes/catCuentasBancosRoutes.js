@@ -3,7 +3,7 @@ import express from "express";
 
 export const catCuentasBancosRoutes = express.Router();
 
-//ge
+//get
 catCuentasBancosRoutes.get('/:key/', getAllCuentas);
 catCuentasBancosRoutes.get('/:key/:id', getCuentasByid);
 
