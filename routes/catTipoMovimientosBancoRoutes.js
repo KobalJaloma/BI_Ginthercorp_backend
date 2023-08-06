@@ -1,5 +1,5 @@
 import express from "express";
-import { createCuentas, getAllCuentas, getCuentasByid } from "../controllers/CatCuentasBancosController.js";
+import { createCuentas, getAllCuentas, getCuentasByid } from "../controllers/BI/catCuentasBancosController.js";
 
 export const catTipoMovimientosRoutes = express.Router();
 

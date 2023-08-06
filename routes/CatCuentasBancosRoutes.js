@@ -1,14 +1,14 @@
-import { createCuentas, getAllCuentas, getCuentasByid } from "../controllers/CatCuentasBancosController.js";
+import { createCuentas, getAllCuentas, getCuentasByid } from "../controllers/BI/catCuentasBancosController.js";
 import express from "express";
 
-export const catCuentasBancos = express.Router();
+export const catCuentasBancosRoutes = express.Router();
 
 //ge
-catCuentasBancos.get('/:key/', getAllCuentas);
-catCuentasBancos.get('/:key/:id', getCuentasByid);
+catCuentasBancosRoutes.get('/:key/', getAllCuentas);
+catCuentasBancosRoutes.get('/:key/:id', getCuentasByid);
 
 //post
-catCuentasBancos.post('/:key/', createCuentas);
+catCuentasBancosRoutes.post('/:key/', createCuentas);
 
 /**
  * @swagger
