@@ -18,7 +18,6 @@ export const swagger = {
     ...usuariosRoutes,
     ...conectionRoute,
     ...catCuentaBancosRoutes,
-    
     ...BitacoraCuentasCompromisos,
     ...BitacoraCuentasLogica,
     ...BitacoraCuentasPromesas,
