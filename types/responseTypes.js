@@ -4,6 +4,13 @@ export const successRes = (arg) => {
         message: arg || 'Peticion Completada Con Exito'
     }
 }
+export const successUpdateRes = (payload, arg) => {
+    return {
+        status: 'OK',
+        message: arg || 'Peticion Completada Con Exito',
+        paylaod: payload
+    }
+}
 
 export const errorRes = (error, arg) => {
     return {
@@ -18,5 +25,13 @@ export const authErrorRes = () => {
         status: 'ERROR',
         message: 'Hubo un error con tu clave cifrada',
         error: 'AUTH'
+    }
+}
+
+export const updateErrorRes = (payload, message) => {
+    return {
+        status: 'ERROR',
+        message: message || 'Hubo un error al intentar actualizar tu registro',
+        paylaod: payload
     }
 }
