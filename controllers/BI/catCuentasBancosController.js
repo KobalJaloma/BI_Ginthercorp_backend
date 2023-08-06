@@ -44,8 +44,6 @@ export const getCuentasByid = async(req, res) => {
   }
 }
 
-
-
 export const createCuentas = async(req, res) => {
   const { key } = req.params;
   const payload = req.body;

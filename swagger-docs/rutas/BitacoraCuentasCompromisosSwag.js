@@ -1,9 +1,9 @@
 export const BitacoraCuentasCompromisos = {
-  '/': {
+  '/BitacoraCuentaCompromisos': {
     'get': {
       'summary': 'Obtiene la bitacora de cuentas compromisos',
       'description': 'Obtiene la bitacora completa',
-      'tags' : ['Bitacora_Cuenta_Compromisos'],
+      'tags' : ['BitacoraCuentaCompromisos'],
       'responses': {
         '200': {
           'description' : 'Bitacora extraida con exito',
@@ -21,7 +21,7 @@ export const BitacoraCuentasCompromisos = {
     'post': {
       'summary': 'Crea un registo nuevo en la bitacora de cuentas compromisos',
       'description': 'Crea registro en la bitacora cuenta compromisos',
-      'tags' : ['Bitacora_Cuenta_Compromisos'],
+      'tags' : ['BitacoraCuentaCompromisos'],
       'requestBody' : {
         'required': true,
       },

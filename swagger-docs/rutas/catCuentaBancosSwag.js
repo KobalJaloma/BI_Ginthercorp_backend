@@ -1,9 +1,9 @@
 export const catCuentaBancosRoutes = {
-  '/': {
+  '/catCuentaBancos': {
     'get': {
       'summary': 'Obtiene el catalogo de las cuentas de banco',
       'description': 'Obtiene el catalogo completo de los clientes',
-      'tags' : ['Catalogo Cuentas de Banco'],
+      'tags' : ['CatalogoCuentasBanco'],
       'responses': {
         '200': {
           'description' : 'Catalogo extraido con exito',
@@ -21,7 +21,7 @@ export const catCuentaBancosRoutes = {
     'post': {
       'summary': 'Crea un registo nuevo en el catalogo de las cuentas de banco',
       'description': 'Crea cuenta de banco en el catalogo',
-      'tags' : ['Catalogo Cuentas de Banco'],
+      'tags' : ['CatalogoCuentasBanco'],
       'requestBody' : {
         'required': true,
       },
@@ -35,11 +35,11 @@ export const catCuentaBancosRoutes = {
       }
     }
   },
-  '/{:id}': { 
+  '/catCuentaBancos/{:id}': { 
     'get': {
       'summary': 'obtiene la cuenta de banco por el id',
       'description': 'obtiene la cuenta de banco por el id ingresado como parametro',
-      'tags': ['Catalogo Cuentas de Banco'],
+      'tags': ['CatalogoCuentasBanco'],
       'responses':{
         '200': {
           'description': 'retorna un JSON con los datos especificados'

@@ -1,9 +1,9 @@
 export const BitacoraCuentasPromesas = {
-  '/': {
+  '/BitacoraCuentaLogica': {
     'get': {
       'summary': 'Obtiene la bitacora de cuentas promesas',
       'description': 'Obtiene la bitacora completa',
-      'tags' : ['Bitacora_Cuenta_Logica'],
+      'tags' : ['BitacoraCuentaLogica'],
       'responses': {
         '200': {
           'description' : 'Bitacora extraida con exito',
@@ -21,7 +21,7 @@ export const BitacoraCuentasPromesas = {
     'post': {
       'summary': 'Crea un registo nuevo en la bitacora de cuentas promesas',
       'description': 'Crea registro en la bitacora cuenta promesas',
-      'tags' : ['Bitacora_Cuenta_Logica'],
+      'tags' : ['BitacoraCuentaLogica'],
       'requestBody' : {
         'required': true,
       },

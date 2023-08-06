@@ -1,9 +1,9 @@
 export const PivoteCuentasCompromisos = {
-  '/': {
+  '/PivoteCuentasCompromisos': {
     'get': {
       'summary': 'Obtiene todos los pivotes registrados',
       'description': 'Obtiene los pivotes registrados',
-      'tags' : ['Pivote_Cuentas_Compromisos'],
+      'tags' : ['PivoteCuentasCompromisos'],
       'responses': {
         '200': {
           'description' : 'Pivote extraido con exito',
@@ -19,11 +19,11 @@ export const PivoteCuentasCompromisos = {
       }
     }
   },
-  '/:id': {
+  '/PivoteCuentasCompromisos/{:id}': {
     'get': {
       'summary': 'Obtiene la bitacora de cuentas promesas por id',
       'description': 'Obtiene la bitacora por id',
-      'tags' : ['Pivote_Cuentas_Compromisos'],
+      'tags' : ['PivoteCuentasCompromisos'],
       'responses': {
         '200': {
           'description' : 'Bitacora extraida con exito',
@@ -41,7 +41,7 @@ export const PivoteCuentasCompromisos = {
     'put': {
       'summary': 'Actualiza el pivote especificado por id',
       'description': 'Actualiza el pivote por id',
-      'tags' : ['Pivote_Cuentas_Compromisos'],
+      'tags' : ['PivoteCuentasCompromisos'],
       parameters: [
         {
           name: 'id',

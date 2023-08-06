@@ -1,9 +1,9 @@
 export const BitacoraCuentasLogica = {
-  '/': {
+  '/BitacoraCuentaLogica': {
     'get': {
       'summary': 'Obtiene la bitacora de cuentas Logica',
       'description': 'Obtiene la bitacora completa',
-      'tags' : ['Bitacora_Cuenta_Logica'],
+      'tags' : ['BitacoraCuentaLogica'],
       'responses': {
         '200': {
           'description' : 'Bitacora extraida con exito',
@@ -21,7 +21,7 @@ export const BitacoraCuentasLogica = {
     'post': {
       'summary': 'Crea un registo nuevo en la bitacora de cuentas logica',
       'description': 'Crea registro en la bitacora cuenta logica',
-      'tags' : ['Bitacora_Cuenta_Logica'],
+      'tags' : ['BitacoraCuentaLogica'],
       'requestBody' : {
         'required': true,
       },

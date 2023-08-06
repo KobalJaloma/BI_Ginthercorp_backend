@@ -18,7 +18,7 @@ export const swagger = {
     ...usuariosRoutes,
     ...conectionRoute,
     ...catCuentaBancosRoutes,
-    ...BitacoraCuentasCompromisos,
+    ...BitacoraCuentasCompromisos,  
     ...BitacoraCuentasLogica,
     ...BitacoraCuentasPromesas,
     ...PivoteCuentasCompromisos,
@@ -35,3 +35,5 @@ export const swagger = {
     }
   }
 }
+
+// console.log(JSON.stringify(swagger));
