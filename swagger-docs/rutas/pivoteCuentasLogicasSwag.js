@@ -3,7 +3,7 @@ export const PivoteCuentasLogicas = {
     'get': {
       'summary': 'Obtiene todos los pivotes registrados',
       'description': 'Obtiene los pivotes registrados',
-      'tags' : ['Pivote Cuentas Logicas'],
+      'tags' : ['Pivote_Cuentas_Logicas'],
       'responses': {
         '200': {
           'description' : 'Pivote extraido con exito',
@@ -11,7 +11,7 @@ export const PivoteCuentasLogicas = {
             'application/json' : {
               'schema': {
                 'type': 'json',
-                'items': "$ref: '#/components/schemas/Pivote Cuentas Logicas'" 
+                'items': "$ref: '#/components/schemas/Pivote_Cuentas_Logicas'" 
               }
             }
           }
@@ -23,7 +23,7 @@ export const PivoteCuentasLogicas = {
     'get': {
       'summary': 'Obtiene la bitacora de cuentas logicas por id',
       'description': 'Obtiene la bitacora por id',
-      'tags' : ['Pivote Cuentas Logicas'],
+      'tags' : ['Pivote_Cuentas_Logicas'],
       'responses': {
         '200': {
           'description' : 'Bitacora extraida con exito',
@@ -31,7 +31,7 @@ export const PivoteCuentasLogicas = {
             'application/json' : {
               'schema': {
                 'type': 'json',
-                'items': "$ref: '#/components/schemas/Pivote Cuentas Logicas'" 
+                'items': "$ref: '#/components/schemas/Pivote_Cuentas_Logicas'" 
               }
             }
           }
@@ -41,7 +41,7 @@ export const PivoteCuentasLogicas = {
     'put': {
       'summary': 'Actualiza el pivote especificado por id',
       'description': 'Actualiza el pivote por id',
-      'tags' : ['Pivote Cuentas Logicas'],
+      'tags' : ['Pivote_Cuentas_Logicas'],
       parameters: [
         {
           name: 'id',
@@ -57,7 +57,7 @@ export const PivoteCuentasLogicas = {
             'application/json' : {
               'schema': {
                 'type': 'json',
-                'items': "$ref: '#/components/schemas/Pivote Cuentas Logicas'" 
+                'items': "$ref: '#/components/schemas/Pivote_Cuentas_Logicas'" 
               }
             }
           }

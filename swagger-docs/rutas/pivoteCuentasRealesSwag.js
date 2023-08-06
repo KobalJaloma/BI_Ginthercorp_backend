@@ -3,7 +3,7 @@ export const PivoteCuentasReales = {
     'get': {
       'summary': 'Obtiene todos los pivotes registrados',
       'description': 'Obtiene los pivotes registrados',
-      'tags' : ['Pivote Cuentas Reales'],
+      'tags' : ['Pivote_Cuentas_Reales'],
       'responses': {
         '200': {
           'description' : 'Pivote extraido con exito',
@@ -11,7 +11,7 @@ export const PivoteCuentasReales = {
             'application/json' : {
               'schema': {
                 'type': 'json',
-                'items': "$ref: '#/components/schemas/Pivote Cuentas Reales'" 
+                'items': "$ref: '#/components/schemas/Pivote_Cuentas_Reales'" 
               }
             }
           }
@@ -23,7 +23,7 @@ export const PivoteCuentasReales = {
     'get': {
       'summary': 'Obtiene la bitacora de cuentas logicas por id',
       'description': 'Obtiene la bitacora por id',
-      'tags' : ['Pivote Cuentas Reales'],
+      'tags' : ['Pivote_Cuentas_Reales'],
       'responses': {
         '200': {
           'description' : 'Bitacora extraida con exito',
@@ -31,7 +31,7 @@ export const PivoteCuentasReales = {
             'application/json' : {
               'schema': {
                 'type': 'json',
-                'items': "$ref: '#/components/schemas/Pivote Cuentas Reales'" 
+                'items': "$ref: '#/components/schemas/Pivote_Cuentas_Reales'" 
               }
             }
           }
@@ -41,7 +41,7 @@ export const PivoteCuentasReales = {
     'put': {
       'summary': 'Actualiza el pivote especificado por id',
       'description': 'Actualiza el pivote por id',
-      'tags' : ['Pivote Cuentas Reales'],
+      'tags' : ['Pivote_Cuentas_Reales'],
       parameters: [
         {
           name: 'id',
@@ -57,7 +57,7 @@ export const PivoteCuentasReales = {
             'application/json' : {
               'schema': {
                 'type': 'json',
-                'items': "$ref: '#/components/schemas/Pivote Cuentas Reales'" 
+                'items': "$ref: '#/components/schemas/Pivote_Cuentas_Reales'" 
               }
             }
           }
