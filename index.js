@@ -13,18 +13,21 @@ import { config } from "./config.js";
 
 
 //TESTING
-// import { autenticar } from "./helpers/autenticacion.js";
-// import { generarPassword } from "./helpers/generadorContraseñas.js";
-// import { db, db_denken } from "./config/db.js";
-// import { TestRoute } from "./routes/TestRoute.js";
-// import { testDenkenRoutes } from "./routes/denken/testDenken.js";
+import { autenticar } from "./helpers/autenticacion.js";
+import { generarPassword } from "./helpers/generadorContraseñas.js";
+import { db, db_denken } from "./config/db.js";
+import { TestRoute } from "./routes/TestRoute.js";
+import { testDenkenRoutes } from "./routes/denken/testDenken.js";
 
-// //Importacion de Rutas
-// import { usuariosRoutes } from "./routes/usuariosRoutes.js";
-// import { connectionRoutes } from "./routes/conecctionRoute.js";
-// import { catCuentasBancosRoutes } from "./routes/catCuentasBancosRoutes.js";
-// import { catTipoMovimientosRoutes } from "./routes/catTipoMovimientosBancoRoutes.js";
+// //Importacion de Rutas BI
+import { usuariosRoutes } from "./routes/usuariosRoutes.js";
+import { connectionRoutes } from "./routes/conecctionRoute.js";
+import { catCuentasBancosRoutes } from "./routes/catCuentasBancosRoutes.js";
+import { catTipoMovimientosRoutes } from "./routes/catTipoMovimientosBancoRoutes.js";
 
+// //Importacion de Rutas DENKEN
+import { catUnidadesNegocioRoutes } from "./routes/denken/catUnidadesNegocioRoutes.js";
+import { sucursalesRoutes } from "./routes/denken/sucursalesRoutes.js";
 
 const app = express();
 
@@ -34,20 +37,24 @@ app.use(bodyParser.json());
 
 
 // //Establecer Rutas
-// app.use('/api/usuarios', usuariosRoutes);
-// app.use('/api/connect', connectionRoutes);
-// app.use('/api/catcuentasbancos', catCuentasBancosRoutes);
-// app.use('/api/cattipomovimientos', catTipoMovimientosRoutes);
+app.use('/api/usuarios', usuariosRoutes);
+app.use('/api/connect', connectionRoutes);
+app.use('/api/catcuentasbancos', catCuentasBancosRoutes);
+app.use('/api/cattipomovimientos', catTipoMovimientosRoutes);
+
+// //Establecer Rutas DENKEN
+app.use('/api/denken/catunidadesnegocio', catUnidadesNegocioRoutes);
+app.use('/api/denken/sucursales', sucursalesRoutes);
 
 
 // //RUTAS TEST
-// app.use('/api/test', TestRoute);
-// app.use('/api/testDenken', testDenkenRoutes);
+app.use('/api/test', TestRoute);
+app.use('/api/testDenken', testDenkenRoutes);
 
 
-// app.use('/test', (req, res) => {
-//     res.send({message: 'hola swagger'})
-// });
+app.use('/test', (req, res) => {
+    res.send({message: 'hola swagger'})
+});
 
 //PROTOCOLOS DE WEB
 const httpServer = http.createServer(app);
@@ -64,10 +71,10 @@ app.listen(config.PORT, (req, res) => {
 
 //SEQUELIZE CONFIG AND SYNC
 try {
-    // db.authenticate()
-    //     .then((response) => console.log('Conexion exitosa a DB'));
-    // db_denken.authenticate()
-    //     .then((response) => console.log('Conexion exitosa a DB_denken'));
+    db.authenticate()
+        .then((response) => console.log('Conexion exitosa a DB'));
+    db_denken.authenticate()
+        .then((response) => console.log('Conexion exitosa a DB_denken'));
 } catch (error) {
     console.log('Error de conexion: ' + error);
 }
