@@ -6,15 +6,8 @@ import { autenticar } from "../../helpers/autenticacion.js";
 
 export const getAllCuentas = async(req, res) => {
   const { atributos } = req.query;
-  const { key } = req.params;
   
   try {
-    //AUTENTICACION DEL CIFRADO
-    const auth = await autenticar(key);
-    if(auth) {
-      res.json(authErrorRes());
-      return;
-    }
     const cuentas = CatCuentasBancos.findAll(atributosControl(atributos));
 
     res.json(cuentas);

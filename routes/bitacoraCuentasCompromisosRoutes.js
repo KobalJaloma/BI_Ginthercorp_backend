@@ -4,7 +4,7 @@ import express from "express";
 export const bitacoraCuentasCompromisosRoutes = express.Router();
 
 //gets
-bitacoraCuentasCompromisosRoutes.get('/:key/', getAllBitacoraCuentasCompromisos);
+bitacoraCuentasCompromisosRoutes.get('/', getAllBitacoraCuentasCompromisos);
 
 //post
-bitacoraCuentasCompromisosRoutes.post('/:key/', createBitacoraCuentaCompromisos);
+bitacoraCuentasCompromisosRoutes.post('/', createBitacoraCuentaCompromisos);

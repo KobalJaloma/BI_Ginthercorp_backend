@@ -4,8 +4,8 @@ import express from "express";
 export const  pivoteCuentasLogicasRoutesRoutes = express.Router();
 
 //gets
-pivoteCuentasLogicasRoutesRoutes.get('/:key/', getAllPivotesCuentas);
-pivoteCuentasLogicasRoutesRoutes.get('/:key/:key', getPivotesCuentasById);
+pivoteCuentasLogicasRoutesRoutes.get('/', getAllPivotesCuentas);
+pivoteCuentasLogicasRoutesRoutes.get('/:id', getPivotesCuentasById);
 
 //puts
- pivoteCuentasLogicasRoutesRoutes.put('/:key/:id', updatePivoteCuentaById);
+ pivoteCuentasLogicasRoutesRoutes.put('/:id', updatePivoteCuentaById);

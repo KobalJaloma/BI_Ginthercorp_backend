@@ -11,10 +11,7 @@ import { swagger } from "./swagger-docs/swagger.js";
 import { config } from "./config.js";
 // console.log("configs: " + JSON.stringify(config));
 
-
 //TESTING
-import { autenticar } from "./helpers/autenticacion.js";
-import { generarPassword } from "./helpers/generadorContraseñas.js";
 import { db, db_denken } from "./config/db.js";
 import { TestRoute } from "./routes/TestRoute.js";
 import { testDenkenRoutes } from "./routes/denken/testDenken.js";
@@ -28,12 +25,36 @@ import { catTipoMovimientosRoutes } from "./routes/catTipoMovimientosBancoRoutes
 // //Importacion de Rutas DENKEN
 import { catUnidadesNegocioRoutes } from "./routes/denken/catUnidadesNegocioRoutes.js";
 import { sucursalesRoutes } from "./routes/denken/sucursalesRoutes.js";
+import { cxcRoutes } from "./routes/denken/cxcRoutes.js";
+import { facturasRoutes } from "./routes/denken/facturasRoutes.js";
+import { movimientosBancariosRoutes } from "./routes/denken/movimientosBancosRoutes.js";
+import { graficaCalculosRoutes } from "./routes/denken/graficasCalculosRoutes.js";
+
+//autenticacion
+import { authErrorRes } from "./types/responseTypes.js";
+import { autenticar } from "./helpers/autenticacion.js";
 
 const app = express();
 
 //se configura el body parser para poder utilizar el req.body - MIDDLEWARE
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
+
+//middleware de autenticacion
+app.use(async(req, res, next) => {
+  const token = req.headers.token;
+  if(!token) {
+    return res.status('401').json({
+      ...authErrorRes(), 
+      message: 'No Se Encontro La Clave Cifrada En Los Headers'
+    });
+  }
+  const auth = await autenticar(token);
+  if(auth) {
+    return res.status('403').json(authErrorRes());
+  }
+  next();
+});
 
 
 // //Establecer Rutas
@@ -42,16 +63,19 @@ app.use('/api/connect', connectionRoutes);
 app.use('/api/catcuentasbancos', catCuentasBancosRoutes);
 app.use('/api/cattipomovimientos', catTipoMovimientosRoutes);
 
-// //Establecer Rutas DENKEN
+//Establecer Rutas DENKEN
 app.use('/api/denken/catunidadesnegocio', catUnidadesNegocioRoutes);
 app.use('/api/denken/sucursales', sucursalesRoutes);
+app.use('/api/denken/cxc', cxcRoutes);
+app.use('/api/denken/facturas', facturasRoutes);
+app.use('/api/denken/movimientosBancarios', movimientosBancariosRoutes);
 
+//Rutas de calculos de graficas - DENKEN INFO
+app.use('/api/denken/calculosgraficas', graficaCalculosRoutes);
 
-// //RUTAS TEST
+//RUTAS TEST
 app.use('/api/test', TestRoute);
 app.use('/api/testDenken', testDenkenRoutes);
-
-
 app.use('/test', (req, res) => {
     res.send({message: 'hola swagger'})
 });
@@ -108,9 +132,6 @@ const swaggerOptions = {
       },
       apis: ["./routes/*.js"]
 };
-
-
-
 const spec = swaggerJsDoc(swaggerOptions);
 
 // app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(spec, { explorer: false }));

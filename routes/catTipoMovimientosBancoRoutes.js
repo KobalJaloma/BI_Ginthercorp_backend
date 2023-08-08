@@ -4,9 +4,9 @@ import { createCuentas, getAllCuentas, getCuentasByid } from "../controllers/BI/
 export const catTipoMovimientosRoutes = express.Router();
 
 //get
-catTipoMovimientosRoutes.get('/:key/', getAllCuentas);
-catTipoMovimientosRoutes.get('/:key/:id', getCuentasByid);
+catTipoMovimientosRoutes.get('/', getAllCuentas);
+catTipoMovimientosRoutes.get('/:id', getCuentasByid);
 
 //post
-catTipoMovimientosRoutes.post('/:key/', createCuentas);
+catTipoMovimientosRoutes.post('/', createCuentas);
 

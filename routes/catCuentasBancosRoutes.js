@@ -4,11 +4,11 @@ import express from "express";
 export const catCuentasBancosRoutes = express.Router();
 
 //get
-catCuentasBancosRoutes.get('/:key/', getAllCuentas);
-catCuentasBancosRoutes.get('/:key/:id', getCuentasByid);
+catCuentasBancosRoutes.get('/', getAllCuentas);
+catCuentasBancosRoutes.get('/:id', getCuentasByid);
 
 //post
-catCuentasBancosRoutes.post('/:key/', createCuentas);
+catCuentasBancosRoutes.post('/', createCuentas);
 
 /**
  * @swagger

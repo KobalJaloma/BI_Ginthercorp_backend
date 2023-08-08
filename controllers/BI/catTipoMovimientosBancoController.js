@@ -5,14 +5,8 @@ import { autenticar } from "../../helpers/autenticacion.js";
 
 export const getAllTipos = async(req, res) => {
   const { atributos } = req.query;
-  const { key } = req.params;
   
   try {
-    const auth = await autenticar(key);
-    if(auth) {
-      res.json(authErrorRes());
-      return;
-    }
     const tipo = await TipoMovimientosBanco.findAll(atributosControl(atributos));
     
     res.json(tipo);
@@ -23,7 +17,7 @@ export const getAllTipos = async(req, res) => {
 
 
 export const getTiposMovimientosById = async(req, res) => {
-  const { id, key } = req.params;
+  const { id } = req.params;
   const { atributos } = req.query;
   
   //sentencias de filtrdo
@@ -31,11 +25,6 @@ export const getTiposMovimientosById = async(req, res) => {
   var queryparam = {...sentencia, ...atributosControl(atributos)};
   
   try {
-    const auth = await autenticar(key);
-    if(auth) {
-      res.json(authErrorRes());
-      return;
-    }
     const tipos = await TipoMovimientosBanco.findAll(queryparam);
 
     //validar si extrajo algun valor

@@ -4,8 +4,8 @@ import { createUsuario, getAllUsuarios, getUsuarioById } from "../controllers/BI
 export const usuariosRoutes = express.Router();
 
 //gets
-usuariosRoutes.get('/:key/', getAllUsuarios);
-usuariosRoutes.get('/:key/:id', getUsuarioById); //se le pasa el id
+usuariosRoutes.get('/', getAllUsuarios);
+usuariosRoutes.get('/:id', getUsuarioById); //se le pasa el id
 
 //post
 usuariosRoutes.post('/', createUsuario);

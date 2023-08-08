@@ -4,4 +4,4 @@ import express from "express";
 export const catUnidadesNegocioRoutes = express.Router();
 
 //gets
-catUnidadesNegocioRoutes.get('/:key/', getAllUnidadesNegocio);
+catUnidadesNegocioRoutes.get('/', getAllUnidadesNegocio);

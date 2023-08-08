@@ -3,17 +3,10 @@ import { authErrorRes, errorRes, successRes } from "../../types/responseTypes.js
 import { atributosControl, periodosControl } from "../../types/sequelizeControl.js";
 
 export const getBitacoraCuentasPromesas = async(req, res) => {
-  const { key } = req.params;
   const { atributos, fechaI, fechaF } = req.query;
   
   
   try {
-    //AUTENTICACION
-    const auth = await autenticar(key);
-    if(auth) {
-      res.json(authErrorRes());
-      return;
-    }
     const sentencia = { ...atributosControl(atributos), ...periodosControl(fechaI, fechaF, 'fecha') };
 
     const bitacora = await BitacoraCuentasPromesas.findAll(sentencia);

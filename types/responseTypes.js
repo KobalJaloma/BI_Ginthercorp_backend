@@ -23,7 +23,7 @@ export const errorRes = (error, arg) => {
 export const authErrorRes = () => {
     return {
         status: 'ERROR',
-        message: 'Hubo un error con tu clave cifrada',
+        message: 'Tu Clave Cifrada Es Incorrecta, Verificar Clave',
         error: 'AUTH'
     }
 }

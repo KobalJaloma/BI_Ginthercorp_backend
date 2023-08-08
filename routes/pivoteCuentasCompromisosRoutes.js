@@ -4,7 +4,7 @@ import express from "express";
 export const pivoteCuentasCompromisosRoutes = express.Router();
 
 //get
-pivoteCuentasCompromisosRoutes.get('/:key/', getAllPivoteCuentasCompromisos);
-pivoteCuentasCompromisosRoutes.get('/:key/:id', getPivotesCuentasById);
+pivoteCuentasCompromisosRoutes.get('/', getAllPivoteCuentasCompromisos);
+pivoteCuentasCompromisosRoutes.get('/:id', getPivotesCuentasById);
 //put
-pivoteCuentasCompromisosRoutes.put('/:key/:id', updatePivoteCuentaById);
+pivoteCuentasCompromisosRoutes.put('/:id', updatePivoteCuentaById);

@@ -4,5 +4,5 @@ import express from "express";
 export const sucursalesRoutes = express.Router();
 
 //get
-sucursalesRoutes.get('/:key/', getAllSucursales);
-sucursalesRoutes.get('/:key/:id', getSucursalById);
+sucursalesRoutes.get('/', getAllSucursales);
+sucursalesRoutes.get('/:id', getSucursalById);

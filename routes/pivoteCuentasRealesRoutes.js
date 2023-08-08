@@ -5,8 +5,8 @@ export const pivoteCuentasRealesRoutes = express.Router();
 
 
 //get
-pivoteCuentasRealesRoutes.get('/:key/', getAllPivotesCuentas);
-pivoteCuentasRealesRoutes.get('/:key/:id', getPivotesCuentasById);
+pivoteCuentasRealesRoutes.get('/', getAllPivotesCuentas);
+pivoteCuentasRealesRoutes.get('/:id', getPivotesCuentasById);
 
 //put
-pivoteCuentasRealesRoutes.put('/:key/:id', updatePivoteCuentaById);
+pivoteCuentasRealesRoutes.put('/:id', updatePivoteCuentaById);

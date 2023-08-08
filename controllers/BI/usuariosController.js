@@ -7,14 +7,7 @@ import { autenticar } from "../../helpers/autenticacion.js";
 //GETS
 export const getAllUsuarios = async(req, res) => {
     try {
-        const { key } = req.params;
         const { atributos } = req.query;
-        //proceso de autenticacion
-        const auth = await autenticar(key); 
-        if(auth) {
-           res.json( authErrorRes() );
-           return;
-        }
 
         const usuarios = await Usuario.findAll(atributosControl(atributos));
         res.json(usuarios);
@@ -43,14 +36,6 @@ export const getUsuarioById = async(req, res) => {
     const condicionesSeq = {...atributosControl(atributos), ...condicionConf};  
 
     try {
-        //Proceso de autenticacion
-        const key = req.params.key;
-        const auth = await autenticar(key);
-        if(auth){
-            res.json( authErrorRes() );
-            return;
-        } 
-        
         const usuario = await Usuario.findAll(condicionesSeq);
         
         res.json(usuario);

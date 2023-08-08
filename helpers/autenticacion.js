@@ -11,7 +11,7 @@ export const autenticar = async(key) => {
         }
       });
       //retorna true si la clave no es correcta y false si, si lo es
-      return (!(keys.length > 0)); //regresa on boolean
+      return (!(keys.length > 0)); //regresa un boolean
       
     } catch (error) {
       console.log(error);     

@@ -3,15 +3,9 @@ import { authErrorRes, errorRes } from "../../types/responseTypes.js";
 import { atributosControl } from "../../types/sequelizeControl.js";
 
 export const getAllPivotesCuentas = async(req, res) => {
-  const { key } = req.params;
   const { atributos } = req.query;
 
   try {
-    let auth = await autenticar(key);
-    if(auth) {
-      res.json(authErrorRes());
-      return;
-    }
     const pivotes = await PivoteCuentasLogica.findAll(atributosControl(atributos));
 
     res.json(pivotes);
@@ -22,15 +16,10 @@ export const getAllPivotesCuentas = async(req, res) => {
 }
 
 export const getPivotesCuentasById = async(req, res) => {
-  const { id, key } = req.params;
+  const { id } = req.params;
   const { atributos } = req.query;
   
   try {
-    const auth = await autenticar(key);
-    if(auth) {
-      res.json(authErrorRes());
-      return;
-    }
     const condicional = { where: {id: id}}
     let parametros = { ...condicional, ...atributosControl(atributos) };
     
@@ -46,7 +35,7 @@ export const getPivotesCuentasById = async(req, res) => {
 
 //UPDATES
 export const updatePivoteCuentaById = async(req, res) => {
-  const { key, id } = req.params;
+  const { id } = req.params;
   const payload = req.body;
   
   //FILTRO DE VALORES REQUERIDOS
@@ -57,13 +46,7 @@ export const updatePivoteCuentaById = async(req, res) => {
   const condicion = { where: { id: id } };
 
   try {
-    //AUTENTICAR
-    const auth = await autenticar(key);
-    if(auth) {
-      res.json(authErrorRes());
-      return;
-    }
-    
+        
     const pivote = await PivoteCuentasLogica.update(payload, condicion);
     res.json(successUpdateRes(payload, 'Tu Pivote Quedo Actualizado'));
     

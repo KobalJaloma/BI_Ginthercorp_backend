@@ -4,6 +4,6 @@ import  express from "express";
 export const bitacoraCuentasPromesaRoutes = express.Router();
 
 //get
-bitacoraCuentasPromesaRoutes.get('/:key/', getBitacoraCuentasPromesas);
+bitacoraCuentasPromesaRoutes.get('/', getBitacoraCuentasPromesas);
 //post
-bitacoraCuentasPromesaRoutes.post('/:key/', createBitacoraCuentasPromesas);
+bitacoraCuentasPromesaRoutes.post('/', createBitacoraCuentasPromesas);

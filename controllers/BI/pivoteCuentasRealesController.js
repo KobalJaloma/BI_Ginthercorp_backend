@@ -4,15 +4,9 @@ import { atributosControl } from "../../types/sequelizeControl.js";
 import { autenticar } from "../../helpers/autenticacion.js";
 
 export const getAllPivotesCuentas = async(req, res) => {
-  const { key } = req.params;
   const { atributos } = req.query;
 
   try {
-    let auth = await autenticar(key);
-    if(auth) {
-      res.json(authErrorRes());
-      return;
-    }
     const pivotes = await PivoteCuentasReales.findAll(atributosControl(atributos));
 
     res.json(pivotes);
