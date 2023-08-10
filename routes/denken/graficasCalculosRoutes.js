@@ -1,11 +1,19 @@
-import { balanceIngEgr, egresosUnidad, ingresosCXC, facCanceladas, familiaGastos} from "../../controllers/denken/calculos/graficasCalculosController.js";
+import { 
+  balanceIngEgr, egresos, ingresosCXC, facCanceladas, 
+  familiaGastos, facturasExpedidas
+} from "../../controllers/denken/calculos/graficasCalculosController.js";
 import express from "express";
 
 export const graficaCalculosRoutes = express.Router();
 
-//get
-graficaCalculosRoutes.get('/balance', balanceIngEgr);
-graficaCalculosRoutes.get('/ingresoscxc', ingresosCXC);
-graficaCalculosRoutes.get('/egresos/:unidad', egresosUnidad);
-graficaCalculosRoutes.get('/faccanceladas', facCanceladas);
-graficaCalculosRoutes.get('/familiagastos/:unidad', familiaGastos);
+//facturas
+graficaCalculosRoutes.get('/ingresos_cxc', ingresosCXC);
+graficaCalculosRoutes.get('/facturas_expedidas', facturasExpedidas)
+graficaCalculosRoutes.get('/facturas_canceladas', facCanceladas);
+
+//balances
+graficaCalculosRoutes.get('/balances', balanceIngEgr);
+
+//egresos
+graficaCalculosRoutes.get('/egresos', egresos);
+graficaCalculosRoutes.get('/familias_gastos', familiaGastos);

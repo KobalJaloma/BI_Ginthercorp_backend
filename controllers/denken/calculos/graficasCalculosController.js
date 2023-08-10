@@ -53,7 +53,7 @@ export const balanceIngEgr = async(req, res) => {
   try {
     const calculo = await db_denken.query(query);
     
-    res.json(calculo);
+    res.json(calculo[0]);
 
   } catch (error) {
     res.json(errorRes(error));
@@ -61,11 +61,15 @@ export const balanceIngEgr = async(req, res) => {
 }
 
 export const ingresosCXC = async(req, res) => {
-  const { fechaI, fechaF } = req.query;
+  const { fechaI, fechaF, unidad, sucursal } = req.query;
 
   if(!fechaF || !fechaI) {
     return res.json(errorRes('', 'Los Parametros De Fecha Son Obligatorios'));
   }
+
+  let where = (unidad || sucursal) ? `WHERE` : '';
+  let unidadesCondicion = unidad ? `tabla.id_unidad_negocio = ${unidad}`:'';
+  let sucursalesCondicion = sucursal ? ` ${unidad && 'AND'} tabla.id_sucursal = ${sucursal}`:'';
 
   let query = `SELECT
     tabla.nombre,
@@ -93,28 +97,46 @@ export const ingresosCXC = async(req, res) => {
     WHERE DATE(psf.fecha) BETWEEN '${fechaI}' AND '${fechaF}' AND psf.monto <> 0
     GROUP BY psf.id_unidad_negocio, psf.id_sucursal
   ) as tabla
+    ${where}
+      ${unidadesCondicion}
+      ${sucursalesCondicion}
   GROUP BY tabla.id_unidad_negocio, tabla.id_sucursal`;
   try {
     const ingresos = await db_denken.query(query);
 
-    res.json(ingresos);
+    res.json(ingresos[0]);
     
   } catch (error) {
     res.json(errorRes(error));
   }
 }
 
-export const egresosUnidad = async(req, res) => {
-  const { fechaI, fechaF } = req.query;
-  const { unidad } = req.params;
+export const egresos = async(req, res) => {
+  const { fechaI, fechaF, sucursal, unidad } = req.query;
 
-  let condicionFechaMesAnio1 =  `AND a.mes BETWEEN MONTH('${fechaI}') AND MONTH('${fechaF}')
-  AND a.anio BETWEEN YEAR('${fechaI}') AND YEAR('${fechaF}')`;
+  //EVALUAR SI HAY ALGUNA CONDICION
+  let where = ((fechaF || fechaI || sucursal || unidad) ? 'WHERE' : '');
 
-  let condicionFechaMesAnio2 =  `AND b.mes BETWEEN MONTH('${fechaI}') AND MONTH('${fechaF}')
-    AND b.anio BETWEEN YEAR('${fechaI}') AND YEAR('${fechaF}')`;
+  console.log(unidad ? `si esta la unidad y es ${unidad}` : 'No existe la unidada');
+  let condicionUnidad = unidad 
+    ? `a.id_unidad_negocio=${unidad}` 
+    : '';
+  
+  let condicionSucursal = sucursal 
+    ? `${unidad ? 'AND' : ''} a.id_sucursal=${sucursal}` 
+    : '';
+  
+  let condicionFechaMesAnio1 =  fechaF && fechaI 
+    ? `${unidad || sucursal ? 'AND' : ''} a.mes BETWEEN MONTH('${fechaI}') AND MONTH('${fechaF}') AND a.anio BETWEEN YEAR('${fechaI}') AND YEAR('${fechaF}')` 
+    : '';
 
-  let condicionFecha1 = ` AND a.fecha_captura BETWEEN '${fechaI}' AND '${fechaF}' `;
+  let condicionFechaMesAnio2 = fechaF && fechaI 
+    ? `${unidad || sucursal ? 'AND' : ''} b.mes BETWEEN MONTH('${fechaI}') AND MONTH('${fechaF}') AND b.anio BETWEEN YEAR('${fechaI}') AND YEAR('${fechaF}')` 
+    : '';
+    
+  let condicionFecha1 = fechaF && fechaI 
+    ? `${unidad || sucursal ? 'AND' : ''} a.fecha_captura BETWEEN '${fechaI}' AND '${fechaF}' ` 
+    : '';
 
   let query = `SELECT 
     IF(IFNULL(n.familia,'')='','TOTAL',IF(n.familia='sin_fam','',n.familia)) AS FAMILIA,
@@ -133,7 +155,10 @@ export const egresosUnidad = async(req, res) => {
                 0 AS ejercido,0 AS factor_prorrateo
             FROM presupuesto_egresos a 
             INNER JOIN sucursales b ON a.id_sucursal = b.id_sucursal AND b.activo = 1
-            WHERE a.id_unidad_negocio=${unidad} ${condicionFechaMesAnio1}
+            ${where} 
+              ${condicionUnidad}
+              ${condicionSucursal} 
+              ${condicionFechaMesAnio1}
             GROUP BY a.id_sucursal
             UNION ALL
             
@@ -142,7 +167,10 @@ export const egresosUnidad = async(req, res) => {
                 0 AS presupuesto,SUM(a.monto) AS ejercido,0 AS factor_prorrateo 
             FROM movimientos_presupuesto a 
             INNER JOIN sucursales b ON a.id_sucursal = b.id_sucursal AND b.activo = 1
-            WHERE a.id_unidad_negocio=${unidad} ${condicionFecha1}
+            ${where} 
+              ${condicionUnidad}
+              ${condicionSucursal} 
+              ${condicionFecha1}
             GROUP BY a.id_sucursal
             UNION ALL
             
@@ -151,7 +179,10 @@ export const egresosUnidad = async(req, res) => {
             FROM presupuestos_prorrateados a 
             LEFT JOIN presupuesto_egresos b ON a.id_presupuesto_egreso=b.id
             INNER JOIN sucursales c ON a.id_sucursal = c.id_sucursal AND c.activo = 1
-            WHERE a.id_unidad_negocio=${unidad} ${condicionFechaMesAnio2}
+            ${where} 
+              ${condicionUnidad}
+              ${condicionSucursal} 
+              ${condicionFechaMesAnio2}
             GROUP BY a.id_sucursal
         ) AS tabla
         
@@ -163,7 +194,7 @@ export const egresosUnidad = async(req, res) => {
   try {
     const egreso = await db_denken.query(query);
     
-    res.json(egreso);
+    res.json(egreso[0]);
 
   } catch (error) {
     res.json(errorRes(error));
@@ -197,86 +228,102 @@ export const facCanceladas = async(req, res) => {
   try {
     const canceladas = await db_denken.query(query);
     
-    res.json(canceladas);
+    res.json(canceladas[0]);
   } catch (error) {
     res.json(errorRes(error))
   }
 }
 
-//pendiente
-export const facturacion = async(req, res) => {
-  
-}
-
 export const familiaGastos = async(req, res) => {
-  const { fechaI, fechaF } = req.query;
-  const { unidad } = req.params;
+  const { fechaI, fechaF, sucursal, unidad } = req.query;
 
   if(!fechaF || !fechaI)
     return res.json(errorRes('', 'No Contiene Los Atributos Necesarios Para La Consulta'));
 
-  let condicionFecha =  `AND a.mes BETWEEN MONTH('${fechaI}') AND MONTH('${fechaF}')
-                                    AND a.anio BETWEEN YEAR('${fechaI}') AND YEAR('${fechaF}')`;
+  let clausulaWhere = (fechaF || fechaI || sucursal || unidad) ? 'WHERE' : '';
+
+  let unidadCondicion = unidad ? `a.id_unidad_negocio=${unidad}`:'';
+
+  let sucursalCondicion = sucursal 
+    ?` ${unidad ? 'AND':''} a.id_sucursal = ${sucursal}`
+    : '';
+
+  let condicionFecha = fechaF || fechaI 
+    ? ` ${unidad || sucursal ? 'AND':''} a.mes BETWEEN MONTH('${fechaI}') AND MONTH('${fechaF}') AND a.anio BETWEEN YEAR('${fechaI}') AND YEAR('${fechaF}')`
+    : '';
                                     
-  let condicionFecha2 = ` AND a.fecha_captura BETWEEN '${fechaI}' AND '${fechaF}' `;
+  let condicionFecha2 = fechaF || fechaI 
+    ? ` ${unidad || sucursal ? 'AND':''} a.fecha_captura BETWEEN '${fechaI}' AND '${fechaF}' `
+    : '';
 
-  let condicionFecha3 =  `AND b.mes BETWEEN MONTH('${fechaI}') AND MONTH('${fechaF}')
-                                  AND b.anio BETWEEN YEAR('${fechaI}') AND YEAR('${fechaF}')`;
+  let condicionFecha3 =  fechaF || fechaI 
+    ? ` ${unidad || sucursal ? 'AND':''} b.mes BETWEEN MONTH('${fechaI}') AND MONTH('${fechaF}') AND b.anio BETWEEN YEAR('${fechaI}') AND YEAR('${fechaF}')`
+    : '';  
+
   let query = `SELECT 
-  IF(IFNULL(n.familia,'')='','TOTAL',IF(n.familia='sin_fam','',n.familia)) AS FAMILIA,
-  SUM(n.presupuesto) AS PRESUPUESTO,
-  SUM(n.ejercido) AS EJERCIDO,
-  CONCAT(FORMAT(SUM(n.porcentaje),2),'%') AS PORCENTAJE,
-  n.id_fam
-FROM (
-  SELECT tabla.familia AS familia, 
-  IFNULL(SUM(tabla.presupuesto)+SUM(tabla.factor_prorrateo),0) AS presupuesto, 
-  IFNULL(SUM(tabla.ejercido),0) AS ejercido, 
-  IF((SUM(tabla.presupuesto)+SUM(tabla.factor_prorrateo)) > 0,IFNULL((SUM(tabla.ejercido) * 100)/(SUM(tabla.presupuesto)+SUM(tabla.factor_prorrateo)),0),0) AS porcentaje,
-  tabla.id_fam
-  FROM (	
-      SELECT 
-          IFNULL(b.descr,'sin_fam') AS familia,
-          SUM(a.monto) AS presupuesto,
-          0 AS ejercido,
-          0 AS factor_prorrateo,
-          b.id_fam AS id_fam
-      FROM presupuesto_egresos a 
-      LEFT JOIN fam_gastos b ON a.id_familia_gasto = b.id_fam
-      WHERE a.id_unidad_negocio=${unidad} ${condicionFecha}
-      GROUP BY a.id_familia_gasto
+    IF(IFNULL(n.familia,'')='','TOTAL',IF(n.familia='sin_fam','',n.familia)) AS FAMILIA,
+    SUM(n.presupuesto) AS PRESUPUESTO,
+    SUM(n.ejercido) AS EJERCIDO,
+    CONCAT(FORMAT(SUM(n.porcentaje),2),'%') AS PORCENTAJE,
+    n.id_fam
+  FROM (
+    SELECT tabla.familia AS familia, 
+    IFNULL(SUM(tabla.presupuesto)+SUM(tabla.factor_prorrateo),0) AS presupuesto, 
+    IFNULL(SUM(tabla.ejercido),0) AS ejercido, 
+    IF((SUM(tabla.presupuesto)+SUM(tabla.factor_prorrateo)) > 0,IFNULL((SUM(tabla.ejercido) * 100)/(SUM(tabla.presupuesto)+SUM(tabla.factor_prorrateo)),0),0) AS porcentaje,
+    tabla.id_fam
+    FROM (	
+        SELECT 
+            IFNULL(b.descr,'sin_fam') AS familia,
+            SUM(a.monto) AS presupuesto,
+            0 AS ejercido,
+            0 AS factor_prorrateo,
+            b.id_fam AS id_fam
+        FROM presupuesto_egresos a 
+        LEFT JOIN fam_gastos b ON a.id_familia_gasto = b.id_fam
+        ${clausulaWhere} 
+          ${unidadCondicion} 
+          ${sucursalCondicion}
+          ${condicionFecha} 
+        GROUP BY a.id_familia_gasto
 
-      UNION ALL
-      
-      SELECT 
-          IFNULL(b.descr,'sin_fam') AS familia,
-          0 AS presupuesto,
-          SUM(a.monto) AS ejercido,
-          0 AS factor_prorrateo,
-          b.id_fam AS id_fam
-      FROM movimientos_presupuesto a 
-      LEFT JOIN fam_gastos b ON a.id_familia_gasto = b.id_fam
-      WHERE a.id_unidad_negocio=${unidad} ${condicionFecha2}
-      GROUP BY a.id_familia_gasto
-      UNION ALL
-      
-      SELECT
-          IFNULL(c.descr,'sin_fam') AS familia,
-          0 AS presupuesto,
-          0 AS ejercido,
-          SUM((a.porcentaje_prorrateo*IFNULL(b.monto,0))/100) AS factor_prorrateo,
-          c.id_fam AS id_fam
-      FROM presupuestos_prorrateados a 
-      LEFT JOIN presupuesto_egresos b ON a.id_presupuesto_egreso=b.id
-      LEFT JOIN fam_gastos c ON a.id_familia_gasto = c.id_fam
-      WHERE a.id_unidad_negocio=${unidad} ${condicionFecha3}
-      GROUP BY a.id_familia_gasto
-  ) AS tabla
-  
-  GROUP BY tabla.familia
-  ORDER BY tabla.familia ASC
-) AS n 
-GROUP BY n.familia WITH ROLLUP`;
+        UNION ALL
+        
+        SELECT 
+            IFNULL(b.descr,'sin_fam') AS familia,
+            0 AS presupuesto,
+            SUM(a.monto) AS ejercido,
+            0 AS factor_prorrateo,
+            b.id_fam AS id_fam
+        FROM movimientos_presupuesto a 
+        LEFT JOIN fam_gastos b ON a.id_familia_gasto = b.id_fam
+        ${clausulaWhere} 
+          ${unidadCondicion}
+          ${sucursalCondicion}
+          ${condicionFecha2} 
+        GROUP BY a.id_familia_gasto
+        UNION ALL
+        
+        SELECT
+            IFNULL(c.descr,'sin_fam') AS familia,
+            0 AS presupuesto,
+            0 AS ejercido,
+            SUM((a.porcentaje_prorrateo*IFNULL(b.monto,0))/100) AS factor_prorrateo,
+            c.id_fam AS id_fam
+        FROM presupuestos_prorrateados a 
+        LEFT JOIN presupuesto_egresos b ON a.id_presupuesto_egreso=b.id
+        LEFT JOIN fam_gastos c ON a.id_familia_gasto = c.id_fam
+        ${clausulaWhere} 
+          ${unidadCondicion} 
+          ${sucursalCondicion}
+          ${condicionFecha3} 
+        GROUP BY a.id_familia_gasto
+    ) AS tabla
+    
+    GROUP BY tabla.familia
+    ORDER BY tabla.familia ASC
+  ) AS n 
+  GROUP BY n.familia WITH ROLLUP`;
 
   try {
     const gastos = await db_denken.query(query);
@@ -286,5 +333,50 @@ GROUP BY n.familia WITH ROLLUP`;
     res.json(errorRes(error));
   }
 }
+
+export const facturasExpedidas = async(req, res) => {
+  const { fechaI, fechaF, sucursal, unidad } = req.query;
+  
+  if(!fechaF || !fechaI) {
+    return res.json(errorRes('', 'Los Parametros Requerido, Son Inexistentes'));
+  }
+
+  //CONDICIONES DE QUERY
+  let unidadCondicion = unidad ? `AND id_unidad_negocio=${unidad}`:'';
+  let sucursalCondicion = sucursal ? `AND id_sucursal = ${sucursal}`:'';
+
+  let query = `
+    SELECT id, id_unidad_negocio, id_sucursal,
+    COUNT( if(estatus = 'T', 1, 0) ) as expedidas
+    FROM facturas
+    WHERE 
+      fecha >= '${fechaI}' AND fecha <= '${fechaF}'
+      ${unidadCondicion}
+      ${sucursalCondicion}
+    GROUP BY id_unidad_negocio, id_sucursal
+    ORDER BY id_unidad_negocio;`;
+
+  try {
+    const response = await db_denken.query(query);
+   
+    res.json(response[0]);
+  } catch (error) {
+    res.json(errorRes(error))
+  }  
+}
+
+export const comparacion = async(req, res ) => {
+  const { fechaF, fechaI } = req.query;
+  
+  let query = ``;
+  
+  try {
+    const response = await db_denken.query(query);
+  } catch (error) {
+    res.json(errorRes(error))
+  }
+}
+
+
 
 
