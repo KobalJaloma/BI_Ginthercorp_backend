@@ -365,17 +365,6 @@ export const facturasExpedidas = async(req, res) => {
   }  
 }
 
-export const comparacion = async(req, res ) => {
-  const { fechaF, fechaI } = req.query;
-  
-  let query = ``;
-  
-  try {
-    const response = await db_denken.query(query);
-  } catch (error) {
-    res.json(errorRes(error))
-  }
-}
 
 
 

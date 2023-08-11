@@ -21,6 +21,8 @@ import { usuariosRoutes } from "./routes/usuariosRoutes.js";
 import { connectionRoutes } from "./routes/conecctionRoute.js";
 import { catCuentasBancosRoutes } from "./routes/catCuentasBancosRoutes.js";
 import { catTipoMovimientosRoutes } from "./routes/catTipoMovimientosBancoRoutes.js";
+import { bitacoraBancosRoutes } from "./routes/bitacoraBancosRoutes.js";
+
 
 // //Importacion de Rutas DENKEN
 import { catUnidadesNegocioRoutes } from "./routes/denken/catUnidadesNegocioRoutes.js";
@@ -40,7 +42,10 @@ const app = express();
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
-//middleware de autenticacion
+//SERVER DE SAGGER
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swagger));
+
+//middleware de AUTENTICACION
 app.use(async(req, res, next) => {
   const token = req.headers.token;
   if(!token) {
@@ -57,18 +62,19 @@ app.use(async(req, res, next) => {
 });
 
 
-// //Establecer Rutas
+// //Establecer Rutas BI
 app.use('/api/usuarios', usuariosRoutes);
 app.use('/api/connect', connectionRoutes);
-app.use('/api/catcuentasbancos', catCuentasBancosRoutes);
-app.use('/api/cattipomovimientos', catTipoMovimientosRoutes);
+app.use('/api/cat_cuentas_bancos', catCuentasBancosRoutes);
+app.use('/api/cat_tipo_movimientos', catTipoMovimientosRoutes);
+app.use('/api/bitacora_bancos', bitacoraBancosRoutes);
 
 //Establecer Rutas DENKEN
-app.use('/api/denken/catunidadesnegocio', catUnidadesNegocioRoutes);
+app.use('/api/denken/cat_unidades_negocio', catUnidadesNegocioRoutes);
 app.use('/api/denken/sucursales', sucursalesRoutes);
 app.use('/api/denken/cxc', cxcRoutes);
 app.use('/api/denken/facturas', facturasRoutes);
-app.use('/api/denken/movimientosBancarios', movimientosBancariosRoutes);
+app.use('/api/denken/movimientos_bancarios', movimientosBancariosRoutes);
 
 //Rutas de calculos de graficas - DENKEN INFO
 app.use('/api/denken/calculosgraficas', graficaCalculosRoutes);
@@ -135,9 +141,8 @@ const swaggerOptions = {
 const spec = swaggerJsDoc(swaggerOptions);
 
 // app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(spec, { explorer: false }));
-app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swagger));
-
-
-
 //NO SE NECESITARA PRTOCOLO HTTPS POR EL MOMENTO-  LEONARDO
+
+
+
 

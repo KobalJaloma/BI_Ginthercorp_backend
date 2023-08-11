@@ -2,7 +2,8 @@ import { ruta } from "./testSwag.js";
 import { 
   usuariosRoutes, conectionRoute, catCuentaBancosRoutes, 
   BitacoraCuentasCompromisos, BitacoraCuentasLogica, BitacoraCuentasPromesas, PivoteCuentasCompromisos,
-  PivoteCuentasLogicas, PivoteCuentasPromesas, PivoteCuentasReales
+  PivoteCuentasLogicas, PivoteCuentasPromesas, PivoteCuentasReales, catTipoMovimientosRoutes,
+  graficasCalculosRoutes
 } from "./rutas/index.js";
 import { usuariosSchema, connectionSchema, catCuentasBancos, catTipoMovimientoSchema } from "./schemas/index.js";
 //MODULOS DE DOCUMENTACION - JSON - SWAGGER
@@ -14,10 +15,11 @@ export const swagger = {
     "description": "Backend del sistema BI"
   },
   "paths": {
-    // ...ruta,
+    // ...ruta BI
     ...usuariosRoutes,
     ...conectionRoute,
     ...catCuentaBancosRoutes,
+    ...catTipoMovimientosRoutes,
     ...BitacoraCuentasCompromisos,  
     ...BitacoraCuentasLogica,
     ...BitacoraCuentasPromesas,
@@ -25,6 +27,10 @@ export const swagger = {
     ...PivoteCuentasLogicas,
     ...PivoteCuentasPromesas,
     ...PivoteCuentasReales,
+
+    //rutas DENKEN
+    ...graficasCalculosRoutes
+
   },
   "components" : {
     "schemas" : {
