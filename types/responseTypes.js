@@ -36,3 +36,10 @@ export const updateErrorRes = (payload, message) => {
     }
 }
 
+export const failRes = (message = '', side = '') => {
+    return {
+        status: 'FAIL',
+        message:  message || 'Peticion Erronea, No Se Encontro Informacion',
+        side: side || 'DEFAULT'
+    }
+}

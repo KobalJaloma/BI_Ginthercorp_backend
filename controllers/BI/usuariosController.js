@@ -1,5 +1,5 @@
 import { Usuario } from "../../models/UsuariosModel.js";
-import { successRes, errorRes, authErrorRes } from "../../types/responseTypes.js";
+import { successRes, errorRes, failRes } from "../../types/responseTypes.js";
 import { atributosControl } from "../../types/sequelizeControl.js";
 import { autenticar } from "../../helpers/autenticacion.js";
 import { evaluarPassword, encriptar } from "../../helpers/cifradoContrasena.js";
@@ -59,16 +59,10 @@ export const autenticarUsuario = async(req, res) => {
         });
 
         if(findUser.length <= 0) 
-            return res.json({
-                status: 'FAIL',
-                message: 'Peticion Erronea, Usuario No Encontrado'
-            })
+            return res.json(failRes('Peticion Erronea, Usuario No Encontrado', 'USER'));
         
         if(!findUser[0].password) 
-            return res.json({
-                    status: 'FAIL',
-                    message: 'Peticion Erronea, No Se Encontro Informacion De Contrasena'
-                })
+            return res.json(failRes('Peticion Erronea, No Se Encontro Informacion De Contrasena', 'PASSWORD'));
 
         //DEVUELVE UN TYPE DE RESPUESTA OK O FAIL, CON STATUS Y MESSAGE
         const evaluar = evaluarPassword(password ,findUser[0].password);
