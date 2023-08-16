@@ -1,4 +1,5 @@
 import { genSaltSync, hashSync, compareSync } from "bcrypt";
+import { failRes, successRes } from "../types/responseTypes.js";
 
 const round = 10;
 
@@ -15,14 +16,8 @@ export const evaluarPassword = (password, hash) => {
   const match = compareSync(password, hash);
 
   return match 
-  ? {
-      status: 'OK',
-      message: 'Usuario Autenticado'
-    }
-  : {
-      status: 'FAIL',
-      message: 'Usuario No Autenticado, Contraseña Erronea'
-    }
+  ? successRes('Usuario Autenticado') 
+  : failRes('Usuario No Autenticado, Contraseña Erronea', 'PASSWORD') 
 }
 
 
