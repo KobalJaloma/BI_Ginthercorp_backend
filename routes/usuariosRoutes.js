@@ -1,5 +1,5 @@
 import express from "express";
-import { createUsuario, getAllUsuarios, getUsuarioById } from "../controllers/BI/usuariosController.js";
+import { createUsuario, getAllUsuarios, getUsuarioById, autenticarUsuario } from "../controllers/BI/usuariosController.js";
 
 export const usuariosRoutes = express.Router();
 
@@ -9,6 +9,7 @@ usuariosRoutes.get('/:id', getUsuarioById); //se le pasa el id
 
 //post
 usuariosRoutes.post('/', createUsuario);
+usuariosRoutes.post('/auth', autenticarUsuario);
 
 
 

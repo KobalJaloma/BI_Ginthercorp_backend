@@ -2,6 +2,7 @@ import { Usuario } from "../../models/UsuariosModel.js";
 import { successRes, errorRes, authErrorRes } from "../../types/responseTypes.js";
 import { atributosControl } from "../../types/sequelizeControl.js";
 import { autenticar } from "../../helpers/autenticacion.js";
+import { evaluarPassword, encriptar } from "../../helpers/cifradoContrasena.js";
 
 
 //GETS
@@ -44,14 +45,67 @@ export const getUsuarioById = async(req, res) => {
     }
 };
 
+export const autenticarUsuario = async(req, res) => {
+    const { user, password } = req.query;
+
+    if(!user || !password) 
+        return res.json(errorRes('','No se encontraron los campos obligatorios'));
+
+    try {
+        const findUser = await Usuario.findAll({
+            where: {
+                usuario: user
+            }
+        });
+
+        if(findUser.length <= 0) 
+            return res.json({
+                status: 'FAIL',
+                message: 'Peticion Erronea, Usuario No Encontrado'
+            })
+        
+        if(!findUser[0].password) 
+            return res.json({
+                    status: 'FAIL',
+                    message: 'Peticion Erronea, No Se Encontro Informacion De Contrasena'
+                })
+
+        //DEVUELVE UN TYPE DE RESPUESTA OK O FAIL, CON STATUS Y MESSAGE
+        const evaluar = evaluarPassword(password ,findUser[0].password);
+
+        return res.json(evaluar);
+        
+    } catch (error) {
+        res.json(errorRes(error));
+    }
+}
+
 //CREATES
 
 export const createUsuario = async(req, res) => {
     try {
-        const usuario = Usuario.create(req.body);
+        console.log("Este es el body " + JSON.stringify(req.body));
+        var payload = req.body;
+
+        const peticion = await Usuario.findAll({
+            where: {
+                usuario: payload.usuario
+            }
+        });
+
+        if(peticion.length > 0)
+            return res.json(errorRes('', 'El Nombre De Usuario Ya Esta Existente, Intente Con Otro'));
+        
+        const password = payload.password;
+        const hash = await encriptar(password);
+
+        payload = {...payload, password: hash};
+
+        const usuario = await Usuario.create(payload);
 
         res.json(successRes('Tu Usuario Fue Creado Con Exito'));
     } catch (error) {
         res.json(errorRes(error, 'Hubo Un Error Al Intentar Crear El Usuario'))
     }
 };
+
