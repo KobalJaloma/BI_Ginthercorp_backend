@@ -337,9 +337,8 @@ export const familiaGastos = async(req, res) => {
 export const facturasExpedidas = async(req, res) => {
   const { fechaI, fechaF, sucursal, unidad } = req.query;
   
-  if(!fechaF || !fechaI) {
+  if(!fechaF || !fechaI) 
     return res.json(errorRes('', 'Los Parametros Requerido, Son Inexistentes'));
-  }
 
   //CONDICIONES DE QUERY
   let unidadCondicion = unidad ? `AND id_unidad_negocio=${unidad}`:'';
@@ -363,6 +362,70 @@ export const facturasExpedidas = async(req, res) => {
   } catch (error) {
     res.json(errorRes(error))
   }  
+}
+
+export const detalladoMovimientos = async(req, res) => {
+
+  const { fechaI, fechaF, unidad, sucursal } = req.query;
+
+  if(!fechaI || !fechaF)  
+    return res.json(errorRes('', 'Los Parametros Requerido, Son Inexistentes'));
+
+  let condUnidad = unidad ? `AND id_unidad_negocio = '${unidad}'` : '';
+  let condSucursal = sucursal ? `AND id_sucursal = '${sucursal}'` : '';
+
+  let query = `SELECT * FROM (
+    SELECT 
+        CASE
+          WHEN mb.id_ingreso_sin_factura > 0 THEN (SELECT id_unidad_negocio FROM ingresos_sin_factura WHERE id = mb.id_ingreso_sin_factura)
+          WHEN mb.id_psf > 0 THEN (SELECT id_unidad_negocio FROM pagos_sin_factura WHERE id = mb.id_psf)
+          WHEN mb.id_cxc > 0 THEN (SELECT id_unidad_negocio FROM cxc WHERE id = mb.id_cxc)
+          WHEN mb.id_gasto > 0 THEN (SELECT id_unidad_negocio FROM gastos WHERE id = mb.id_gasto)
+          WHEN mb.id_viatico > 0 THEN (SELECT id_unidad_negocio FROM viaticos WHERE id = mb.id_viatico)
+          WHEN mb.id_caja_chica > 0 THEN (SELECT id_unidad_negocio FROM caja_chica WHERE id = mb.id_caja_chica)
+          WHEN mb.id_cxp > 0 THEN (SELECT id_unidad_negocio FROM cxp WHERE id = mb.id_cxp)
+          WHEN mb.id_nomina > 0 THEN (SELECT su.id_unidad_negocio FROM periodos_s ps INNER JOIN sucursales su ON ps.id_sucursal = su.id_sucursal WHERE ps.id_nomina = mb.id_nomina)
+          WHEN mb.id_nomina_a > 0 THEN (SELECT su.id_unidad_negocio FROM periodos_s_a ps INNER JOIN sucursales su ON ps.id_sucursal = su.id_sucursal WHERE ps.id_nomina_a = mb.id_nomina_a)
+          ELSE (SELECT id_unidad_negocio FROM cuentas_bancos WHERE id = mb.id_cuenta_banco)
+        END AS id_unidad_negocio,
+              CASE
+          WHEN mb.id_ingreso_sin_factura > 0 THEN (SELECT id_sucursal FROM ingresos_sin_factura WHERE id = mb.id_ingreso_sin_factura)
+          WHEN mb.id_psf > 0 THEN (SELECT id_sucursal FROM pagos_sin_factura WHERE id = mb.id_psf)
+          WHEN mb.id_cxc > 0 THEN (SELECT id_sucursal FROM cxc WHERE id = mb.id_cxc)
+          WHEN mb.id_gasto > 0 THEN (SELECT id_sucursal FROM gastos WHERE id = mb.id_gasto)
+          WHEN mb.id_viatico > 0 THEN (SELECT id_sucursal FROM viaticos WHERE id = mb.id_viatico)
+          WHEN mb.id_caja_chica > 0 THEN (SELECT id_sucursal FROM caja_chica WHERE id = mb.id_caja_chica)
+          WHEN mb.id_cxp > 0 THEN (SELECT id_sucursal FROM cxp WHERE id = mb.id_cxp)
+          WHEN mb.id_nomina > 0 THEN (SELECT ps.id_sucursal FROM periodos_s ps WHERE ps.id_nomina = mb.id_nomina)
+          WHEN mb.id_nomina_a > 0 THEN (SELECT ps.id_sucursal FROM periodos_s_a ps WHERE ps.id_nomina_a = mb.id_nomina_a)
+          ELSE (SELECT id_sucursal FROM cuentas_bancos WHERE id = mb.id_cuenta_banco)
+        END AS id_sucursal,
+        tipo,
+              IF(mb.tipo IN ('A', 'I', 'T'), 'Ingreso', 'Egreso') AS tipo_movimiento,
+        transferencia,
+        monto,
+        fecha_aplicacion,
+        fecha,
+        id_cuenta_banco,
+        id,
+              IF(observaciones <> '', observaciones, 'SIN DESCRIPCION') as observaciones,
+        fondeo
+      FROM movimientos_bancos mb
+      WHERE mb.tipo <> 'I' AND observaciones <> 'Seguimiento a Cobranza'
+        AND IF(fecha_aplicacion='0000-00-00', (DATE(fecha) BETWEEN '${fechaI}' AND '${fechaF}'), (DATE(fecha_aplicacion) BETWEEN '${fechaI}' AND '${fechaF}'))
+      ) AS a
+  WHERE 
+  1 
+  ${condUnidad}
+  ${condSucursal}`;
+
+  try {
+    const response = db_denken.query(query);
+    res.json(response[0]);
+
+  } catch (error) {
+    res.json(errorRes(error));
+  }
 }
 
 

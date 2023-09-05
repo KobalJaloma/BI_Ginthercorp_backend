@@ -1,6 +1,6 @@
 import { 
   balanceIngEgr, egresos, ingresosCXC, facCanceladas, 
-  familiaGastos, facturasExpedidas
+  familiaGastos, facturasExpedidas, detalladoMovimientos
 } from "../../controllers/denken/calculos/graficasCalculosController.js";
 import express from "express";
 
@@ -17,3 +17,6 @@ graficaCalculosRoutes.get('/balances', balanceIngEgr);
 //egresos
 graficaCalculosRoutes.get('/egresos', egresos);
 graficaCalculosRoutes.get('/familias_gastos', familiaGastos);
+
+//listas
+graficaCalculosRoutes.get('/detallado_movimientos', detalladoMovimientos);
