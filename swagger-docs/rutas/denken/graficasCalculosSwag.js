@@ -305,5 +305,56 @@ export const graficasCalculosRoutes = {
       }
     },
   },
+  '/denken/calculosgraficas/detallado_movimientos': {
+    'get': {
+      'summary': 'Obtiene los Listados De Movimientos De Bancos',
+      'description': 'Obtiene todos los Listados De Movimientos De Bancos De Un Periodo',
+      'tags' : ['Calculos De Graficas'],
+      'parameters': [
+        {
+          name: 'unidad',
+          in: 'query',
+          description: 'Id de la unidad a filtrar',
+          required: false,
+          example: 'ruta?unidad=1'
+        },
+        {
+          name: 'sucursal',
+          in: 'query',
+          description: 'Id de la sucursal a filtrar',
+          required: false,
+          example: 'ruta?sucursal=1'
+        },
+        {
+          name: 'fechaI',
+          in: 'query',
+          description: 'Fecha inicial a filtrar',
+          required: true,
+          example: 'ruta?fechaI=2023-08-01'
+        },
+        {
+          name: 'fechaF',
+          in: 'query',
+          description: 'Fecha Final a filtrar',
+          required: true,
+          example: 'ruta?fechaF=2023-08-01'
+        },
+        
+      ],
+      'responses': {
+        '200': {
+          'description' : '',
+          'content': {
+            'application/json' : {
+              'schema': {
+                'type': 'json',
+                '$ref': '#/components/schemas/' 
+              }
+            }
+          }
+        }
+      }
+    },
+  },
 
 }
