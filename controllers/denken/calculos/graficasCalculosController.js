@@ -420,8 +420,8 @@ export const detalladoMovimientos = async(req, res) => {
   ${condSucursal}`;
 
   try {
-    const response = db_denken.query(query);
-    res.json(response);
+    const response = await db_denken.query(query);
+    res.json(response[0]);
 
   } catch (error) {
     res.json(errorRes(error));
