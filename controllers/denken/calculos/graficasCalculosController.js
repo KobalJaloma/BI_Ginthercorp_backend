@@ -421,7 +421,7 @@ export const detalladoMovimientos = async(req, res) => {
 
   try {
     const response = db_denken.query(query);
-    res.json(response[0]);
+    res.json(query);
 
   } catch (error) {
     res.json(errorRes(error));
