@@ -377,7 +377,7 @@ export const detalladoMovimientos = async(req, res) => {
   let condOffset = (index && limit) ? ` OFFSET ${index}`: '';
   
   //tipo: 1=egreso, 0=ingreso
-  let tiposGastoCond = tipo ? `AND ${tipo == '1' && 'NOT'} mb.tipo IN ('A', 'I', 'T')`: '';
+  let tiposGastoCond = tipo ? `AND ${tipo == '1'?'NOT':''} mb.tipo IN ('A', 'I', 'T')`: '';
 
   let query = `SELECT * FROM (
     SELECT 
