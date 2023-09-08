@@ -366,15 +366,18 @@ export const facturasExpedidas = async(req, res) => {
 
 export const detalladoMovimientos = async(req, res) => {
 
-  const { fechaI, fechaF, unidad, sucursal, limit, index } = req.query;
-
+  const { fechaI, fechaF, unidad, sucursal, tipo, limit, index } = req.query;
+  
   if(!fechaI || !fechaF)  
-    return res.json(errorRes('', 'Los Parametros Requerido, Son Inexistentes'));
+  return res.json(errorRes('', 'Los Parametros Requerido, Son Inexistentes'));
 
   let condUnidad = unidad ? `AND id_unidad_negocio = '${unidad}'` : '';
   let condSucursal = sucursal ? `AND id_sucursal = '${sucursal}'` : '';
   let condLimit = limit ? ` LIMIT ${limit} `: '';
   let condOffset = (index && limit) ? ` OFFSET ${index}`: '';
+  
+  //tipo: 1=egreso, 0=ingreso
+  let tiposGastoCond = tipo ? `AND ${tipo == '1' && 'NOT'} mb.tipo IN ('A', 'I', 'T')`: '';
 
   let query = `SELECT * FROM (
     SELECT 
@@ -414,6 +417,7 @@ export const detalladoMovimientos = async(req, res) => {
         fondeo
       FROM movimientos_bancos mb
       WHERE mb.tipo <> 'I' AND observaciones <> 'Seguimiento a Cobranza'
+        ${tiposGastoCond}
         AND IF(fecha_aplicacion='0000-00-00', (DATE(fecha) BETWEEN '${fechaI}' AND '${fechaF}'), (DATE(fecha_aplicacion) BETWEEN '${fechaI}' AND '${fechaF}'))
       ) AS a
   WHERE 

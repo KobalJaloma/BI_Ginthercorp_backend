@@ -353,6 +353,13 @@ export const graficasCalculosRoutes = {
           required: false,
           example: 'ruta?index=20'
         },
+        {
+          name: 'tipo',
+          in: 'query',
+          description: 'Tipo de gasto que se realiza y regresa ingresos o egresos, mandas 1 para los egresos y 0 para los ingresos',
+          required: false,
+          example: 'ruta?tipo=0'
+        },
         
       ],
       'responses': {
