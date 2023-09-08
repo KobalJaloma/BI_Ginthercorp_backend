@@ -339,6 +339,20 @@ export const graficasCalculosRoutes = {
           required: true,
           example: 'ruta?fechaF=2023-08-01'
         },
+        {
+          name: 'limit',
+          in: 'query',
+          description: 'Filtro de Limite',
+          required: false,
+          example: 'ruta?limite=100'
+        },
+        {
+          name: 'index',
+          in: 'query',
+          description: 'Index con el que se quedara la consulta',
+          required: false,
+          example: 'ruta?index=20'
+        },
         
       ],
       'responses': {

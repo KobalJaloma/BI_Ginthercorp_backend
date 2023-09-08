@@ -366,13 +366,15 @@ export const facturasExpedidas = async(req, res) => {
 
 export const detalladoMovimientos = async(req, res) => {
 
-  const { fechaI, fechaF, unidad, sucursal } = req.query;
+  const { fechaI, fechaF, unidad, sucursal, limit, index } = req.query;
 
   if(!fechaI || !fechaF)  
     return res.json(errorRes('', 'Los Parametros Requerido, Son Inexistentes'));
 
   let condUnidad = unidad ? `AND id_unidad_negocio = '${unidad}'` : '';
   let condSucursal = sucursal ? `AND id_sucursal = '${sucursal}'` : '';
+  let condLimit = limit ? ` LIMIT ${limit} `: '';
+  let condOffset = (index && limit) ? ` OFFSET ${index}`: '';
 
   let query = `SELECT * FROM (
     SELECT 
@@ -417,7 +419,9 @@ export const detalladoMovimientos = async(req, res) => {
   WHERE 
   1 
   ${condUnidad}
-  ${condSucursal}`;
+  ${condSucursal}
+  ${condLimit}
+  ${condOffset}`;
 
   try {
     const response = await db_denken.query(query);
