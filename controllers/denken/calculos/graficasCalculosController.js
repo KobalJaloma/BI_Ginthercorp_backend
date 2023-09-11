@@ -371,15 +371,18 @@ export const detalladoMovimientos = async(req, res) => {
   if(!fechaI || !fechaF)  
   return res.json(errorRes('', 'Los Parametros Requerido, Son Inexistentes'));
 
-  let condUnidad = unidad ? `AND id_unidad_negocio = '${unidad}'` : '';
-  let condSucursal = sucursal ? `AND id_sucursal = '${sucursal}'` : '';
+  let condUnidad = unidad ? `AND a.id_unidad_negocio = '${unidad}'` : '';
+  let condSucursal = sucursal ? `AND a.id_sucursal = '${sucursal}'` : '';
   let condLimit = limit ? ` LIMIT ${limit} `: '';
   let condOffset = (index && limit) ? ` OFFSET ${index}`: '';
   
   //tipo: 1=egreso, 0=ingreso
   let tiposGastoCond = tipo ? `AND ${tipo == '1'?'NOT':''} mb.tipo IN ('A', 'I', 'T')`: '';
 
-  let query = `SELECT * FROM (
+  let query = `SELECT 
+      a.*, 
+      suc.descr as sucursal_descr 
+    FROM (
     SELECT 
         CASE
           WHEN mb.id_ingreso_sin_factura > 0 THEN (SELECT id_unidad_negocio FROM ingresos_sin_factura WHERE id = mb.id_ingreso_sin_factura)
@@ -405,21 +408,23 @@ export const detalladoMovimientos = async(req, res) => {
           WHEN mb.id_nomina_a > 0 THEN (SELECT ps.id_sucursal FROM periodos_s_a ps WHERE ps.id_nomina_a = mb.id_nomina_a)
           ELSE (SELECT id_sucursal FROM cuentas_bancos WHERE id = mb.id_cuenta_banco)
         END AS id_sucursal,
-        tipo,
-              IF(mb.tipo IN ('A', 'I', 'T'), 'Ingreso', 'Egreso') AS tipo_movimiento,
-        transferencia,
-        monto,
-        fecha_aplicacion,
-        fecha,
-        id_cuenta_banco,
-        id,
-              IF(observaciones <> '', observaciones, 'SIN DESCRIPCION') as observaciones,
-        fondeo
+        mb.tipo,
+		      IF(mb.tipo IN ('A', 'I', 'T'), 'Ingreso', 'Egreso') AS tipo_movimiento,
+        mb.monto,
+        mb.fecha_aplicacion as fecha,
+        cb.cuenta,
+        banco.descripcion as banco,
+        cb.descripcion as descripcion_cuenta,
+          IF(mb.observaciones <> '', mb.observaciones, 'SIN DESCRIPCION') as observaciones,
+        mb.fondeo
       FROM movimientos_bancos mb
+      LEFT JOIN cuentas_bancos cb on mb.id_cuenta_banco = cb.id
+      LEFT JOIN bancos banco on cb.id_banco = banco.id
       WHERE mb.tipo <> 'I' AND observaciones <> 'Seguimiento a Cobranza'
         ${tiposGastoCond}
         AND IF(fecha_aplicacion='0000-00-00', (DATE(fecha) BETWEEN '${fechaI}' AND '${fechaF}'), (DATE(fecha_aplicacion) BETWEEN '${fechaI}' AND '${fechaF}'))
       ) AS a
+  LEFT JOIN sucursales suc on a.id_sucursal = suc.id_sucursal
   WHERE 
   1 
   ${condUnidad}
