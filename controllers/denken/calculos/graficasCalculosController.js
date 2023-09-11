@@ -6,15 +6,18 @@ import { errorRes, successRes } from "../../../types/responseTypes.js";
 //balance de ingresos y egresos
 export const balanceIngEgr = async(req, res) => {
   //formato fecha 0000-00-00
-  const { fechaI, fechaF } = req.query;
+  const { fechaI, fechaF, unidad } = req.query;
 
   if(!fechaI || !fechaF) {
     res.json(errorRes('', 'El Periodo De Fechas Es Obligatorio'));
     return;
   }
 
+  let unidadCond = unidad ? ` AND a.id_unidad_negocio = ${unidad}`: '';
+
   let query = `SELECT
     a.id_unidad_negocio,
+    a.id_sucursal,
     IF(a.id_unidad_negocio = 0, 'SIN UNIDAD', c.nombre) AS FAMILIA,
     SUM(IF(a.tipo = 'I' OR (a.tipo = 'A' AND a.fondeo = 0),a.monto,0)) as EJERCIDO,
     SUM(IF(a.tipo = 'C',a.monto,0)) as PRESUPUESTO,
@@ -44,11 +47,13 @@ export const balanceIngEgr = async(req, res) => {
         id,
         fondeo
     FROM movimientos_bancos mb
-    WHERE mb.tipo <> 'I'
+    WHERE mb.tipo <> 'I' AND observaciones <> 'Seguimiento a Cobranza'
         AND IF(fecha_aplicacion='0000-00-00', (DATE(fecha) BETWEEN '${fechaI}' AND '${fechaF}'), (DATE(fecha_aplicacion) BETWEEN '${fechaI}' AND '${fechaF}'))
   ) AS a
   LEFT JOIN cat_unidades_negocio c ON c.id = a.id_unidad_negocio
-  GROUP BY a.id_unidad_negocio;`
+  WHERE 1 
+    ${unidadCond}
+  ${unidad ? `GROUP BY a.id_sucursal` : 'GROUP BY a.id_unidad_negocio'};`
 
   try {
     const calculo = await db_denken.query(query);
@@ -400,7 +405,7 @@ export const detalladoMovimientos = async(req, res) => {
           WHEN mb.id_nomina_a > 0 THEN (SELECT su.id_unidad_negocio FROM periodos_s_a ps INNER JOIN sucursales su ON ps.id_sucursal = su.id_sucursal WHERE ps.id_nomina_a = mb.id_nomina_a)
           ELSE (SELECT id_unidad_negocio FROM cuentas_bancos WHERE id = mb.id_cuenta_banco)
         END AS id_unidad_negocio,
-              CASE
+        CASE
           WHEN mb.id_ingreso_sin_factura > 0 THEN (SELECT id_sucursal FROM ingresos_sin_factura WHERE id = mb.id_ingreso_sin_factura)
           WHEN mb.id_psf > 0 THEN (SELECT id_sucursal FROM pagos_sin_factura WHERE id = mb.id_psf)
           WHEN mb.id_cxc > 0 THEN (SELECT id_sucursal FROM cxc WHERE id = mb.id_cxc)
