@@ -37,6 +37,18 @@ export const balanceIngEgr = async(req, res) => {
             WHEN mb.id_nomina_a > 0 THEN (SELECT su.id_unidad_negocio FROM periodos_s_a ps INNER JOIN sucursales su ON ps.id_sucursal = su.id_sucursal WHERE ps.id_nomina_a = mb.id_nomina_a)
             ELSE (SELECT id_unidad_negocio FROM cuentas_bancos WHERE id = mb.id_cuenta_banco)
         END AS id_unidad_negocio,
+        CASE
+          WHEN mb.id_ingreso_sin_factura > 0 THEN (SELECT id_sucursal FROM ingresos_sin_factura WHERE id = mb.id_ingreso_sin_factura)
+          WHEN mb.id_psf > 0 THEN (SELECT id_sucursal FROM pagos_sin_factura WHERE id = mb.id_psf)
+          WHEN mb.id_cxc > 0 THEN (SELECT id_sucursal FROM cxc WHERE id = mb.id_cxc)
+          WHEN mb.id_gasto > 0 THEN (SELECT id_sucursal FROM gastos WHERE id = mb.id_gasto)
+          WHEN mb.id_viatico > 0 THEN (SELECT id_sucursal FROM viaticos WHERE id = mb.id_viatico)
+          WHEN mb.id_caja_chica > 0 THEN (SELECT id_sucursal FROM caja_chica WHERE id = mb.id_caja_chica)
+          WHEN mb.id_cxp > 0 THEN (SELECT id_sucursal FROM cxp WHERE id = mb.id_cxp)
+          WHEN mb.id_nomina > 0 THEN (SELECT ps.id_sucursal FROM periodos_s ps WHERE ps.id_nomina = mb.id_nomina)
+          WHEN mb.id_nomina_a > 0 THEN (SELECT ps.id_sucursal FROM periodos_s_a ps WHERE ps.id_nomina_a = mb.id_nomina_a)
+          ELSE (SELECT id_sucursal FROM cuentas_bancos WHERE id = mb.id_cuenta_banco)
+        END AS id_sucursal,
         (SELECT id_unidad_negocio FROM cuentas_bancos WHERE id = mb.id_cuenta_banco) id_unidad_negocio2,
         tipo,
         transferencia,
