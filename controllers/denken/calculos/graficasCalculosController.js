@@ -408,6 +408,7 @@ export const detalladoMovimientos = async(req, res) => {
           WHEN mb.id_nomina_a > 0 THEN (SELECT ps.id_sucursal FROM periodos_s_a ps WHERE ps.id_nomina_a = mb.id_nomina_a)
           ELSE (SELECT id_sucursal FROM cuentas_bancos WHERE id = mb.id_cuenta_banco)
         END AS id_sucursal,
+        mb.id,
         mb.tipo,
 		      IF(mb.tipo IN ('A', 'I', 'T'), 'Ingreso', 'Egreso') AS tipo_movimiento,
         mb.monto,
@@ -429,6 +430,7 @@ export const detalladoMovimientos = async(req, res) => {
   1 
   ${condUnidad}
   ${condSucursal}
+  ORDER BY a.id desc
   ${condLimit}
   ${condOffset}`;
 
