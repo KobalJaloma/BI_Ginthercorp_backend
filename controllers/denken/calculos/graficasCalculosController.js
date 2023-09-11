@@ -203,19 +203,22 @@ export const egresos = async(req, res) => {
 }
 
 export const facCanceladas = async(req, res) => {
-  const { fechaI, fechaF } = req.query;
+  const { fechaI, fechaF, count } = req.query;
 
   if(!fechaI && !fechaF) {
     return successRes.json(errorRes('', 'Los Campos De Fecha son obligatorios'));
   }
 
   let query = `SELECT
-    su.descr FAMILIA,
-    fa.total AS EJERCIDO,
-    '' AS PRESUPUESTO,
-    fac.fecha_cancelacion FECHA,
-    rs.razon_social AS CLIENTE,
-    fa.FOLIO
+    ${ count 
+      ? `count(*) as canceladas` 
+      : `su.descr FAMILIA,
+        fa.total AS EJERCIDO,
+        '' AS PRESUPUESTO,
+        fac.fecha_cancelacion FECHA,
+        rs.razon_social AS CLIENTE,
+        fa.FOLIO`
+    }
   FROM facturas fa
   INNER JOIN cat_unidades_negocio cun ON cun.id = fa.id_unidad_negocio
   INNER JOIN sucursales su ON fa.id_sucursal = su.id_sucursal
@@ -225,6 +228,7 @@ export const facCanceladas = async(req, res) => {
     AND DATE(fac.fecha_cancelacion) >= '${fechaI}'
     AND DATE(fac.fecha_cancelacion) <= '${fechaF}'
     AND fa.id_unidad_negocio = 1;`;
+    
   try {
     const canceladas = await db_denken.query(query);
     
