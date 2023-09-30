@@ -32,6 +32,11 @@ export const config = {
     DB_USER:process.env.DB_USER, 
     DB_PASSWORD:process.env.DB_PASSWORD,
     
+    DB_ROUTE_TICKETS:process.env.DB_ROUTE_TICKETS,
+    DB_NAME_TICKETS:process.env.DB_NAME_TICKETS,
+    DB_USER_TICKETS:process.env.DB_USER_TICKETS, 
+    DB_PASSWORD_TICKETS:process.env.DB_PASSWORD_TICKETS,
+    
     DB_ROUTE_DENKEN:process.env.DB_ROUTE_DENKEN,
     DB_NAME_DENKEN:process.env.DB_NAME_DENKEN,
     DB_USER_DENKEN:process.env.DB_USER_DENKEN, 

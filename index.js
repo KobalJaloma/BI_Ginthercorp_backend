@@ -12,7 +12,7 @@ import { config } from "./config.js";
 // console.log("configs: " + JSON.stringify(config));
 
 //TESTING
-import { db, db_denken } from "./config/db.js";
+import { db, db_denken, db_tickets} from "./config/db.js";
 import { TestRoute } from "./routes/TestRoute.js";
 import { testDenkenRoutes } from "./routes/denken/testDenken.js";
 
@@ -36,8 +36,12 @@ import { graficaCalculosRoutes } from "./routes/denken/graficasCalculosRoutes.js
 import { authErrorRes } from "./types/responseTypes.js";
 import { autenticar } from "./helpers/autenticacion.js";
 
-const app = express();
+//Constates de configuracion de enrutamiento
+const version = 'v1.0';
+const intiUrl = `/api/${version}`
 
+
+const app = express();
 //se configura el body parser para poder utilizar el req.body - MIDDLEWARE
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
@@ -63,25 +67,28 @@ app.use(async(req, res, next) => {
 
 
 // //Establecer Rutas BI
-app.use('/api/usuarios', usuariosRoutes);
-app.use('/api/connect', connectionRoutes);
-app.use('/api/cat_cuentas_bancos', catCuentasBancosRoutes);
-app.use('/api/cat_tipo_movimientos', catTipoMovimientosRoutes);
-app.use('/api/bitacora_bancos', bitacoraBancosRoutes);
+app.use(`${intiUrl}/usuarios`, usuariosRoutes);
+app.use(`${intiUrl}/connect`, connectionRoutes);
+app.use(`${intiUrl}/cat_cuentas_bancos`, catCuentasBancosRoutes);
+app.use(`${intiUrl}/cat_tipo_movimientos`, catTipoMovimientosRoutes);
+app.use(`${intiUrl}/bitacora_bancos`, bitacoraBancosRoutes);
+
+//ESTABLECER RUTAS DE TICKETS
+
 
 //Establecer Rutas DENKEN
-app.use('/api/denken/cat_unidades_negocio', catUnidadesNegocioRoutes);
-app.use('/api/denken/sucursales', sucursalesRoutes);
-app.use('/api/denken/cxc', cxcRoutes);
-app.use('/api/denken/facturas', facturasRoutes);
-app.use('/api/denken/movimientos_bancarios', movimientosBancariosRoutes);
-
+app.use(`${intiUrl}/denken/cat_unidades_negocio`, catUnidadesNegocioRoutes);
+app.use(`${intiUrl}/denken/sucursales`, sucursalesRoutes);
+app.use(`${intiUrl}/denken/cxc`, cxcRoutes);
+app.use(`${intiUrl}/denken/facturas`, facturasRoutes);
+app.use(`${intiUrl}/denken/movimientos_bancarios`, movimientosBancariosRoutes);
 //Rutas de calculos de graficas - DENKEN INFO
-app.use('/api/denken/calculosgraficas', graficaCalculosRoutes);
+app.use(`${intiUrl}/denken/calculosgraficas`, graficaCalculosRoutes);
+
 
 //RUTAS TEST
-app.use('/api/test', TestRoute);
-app.use('/api/testDenken', testDenkenRoutes);
+app.use(`${intiUrl}/test`, TestRoute);
+app.use(`${intiUrl}/testDenken`, testDenkenRoutes);
 app.use('/test', (req, res) => {
     res.send({message: 'hola swagger'})
 });
@@ -105,6 +112,8 @@ try {
         .then((response) => console.log('Conexion exitosa a DB'));
     db_denken.authenticate()
         .then((response) => console.log('Conexion exitosa a DB_denken'));
+    db_tickets.authenticate()
+        .then(response => console.log('Conexion exitosa a DB_tickets'));
 } catch (error) {
     console.log('Error de conexion: ' + error);
 }
