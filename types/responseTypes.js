@@ -15,7 +15,7 @@ export const successUpdateRes = (payload, arg) => {
 export const errorRes = (error, arg) => {
     return {
         status: 'ERROR',
-        message: arg || 'Peticion Erronea, hubo un fallo',
+        message: arg || 'Peticion Erronea, Hubo Un Fallo En El Sistema',
         error: error
     }
 }

@@ -8,7 +8,7 @@ export const getAllPivoteCuentasCompromisos = async(req, res) => {
 
 
   try {
-    const pivote = await PivoteCuentasCompromisos(atributosControl(atributos));
+    const pivote = await PivoteCuentasCompromisos.findAll(atributosControl(atributos));
     
     res.json(pivote);
   

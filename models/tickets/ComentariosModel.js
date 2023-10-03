@@ -19,6 +19,9 @@ export const Comentario = db_tickets.define('comentarios', {
     likes: {
         type: DataTypes.INTEGER
     },
+    likes_usuarios: {
+        type: DataTypes.INTEGER
+    },
     fecha: { 
         type: DataTypes.DATE
     },

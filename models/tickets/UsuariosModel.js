@@ -28,7 +28,7 @@ export const Usuario = db_tickets.define('usuarios', {
     telefono: {
         type: DataTypes.STRING
     },
-    fk_departamento: {
+    departamento_id: {
         type: DataTypes.INTEGER
     },
     activo: {

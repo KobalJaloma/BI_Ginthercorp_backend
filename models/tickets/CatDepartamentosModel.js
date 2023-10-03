@@ -7,7 +7,7 @@ export const CatDepartamento = db_tickets.define('cat_departamentos', {
         primaryKey: true,
         autoIncrement: true
     },
-    fk_sucursal: {
+    sucursal_id: {
         type: DataTypes.INTEGER
     },
     nombre: {

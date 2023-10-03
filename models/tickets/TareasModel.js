@@ -19,7 +19,13 @@ export const Tarea = db_tickets.define('tareas', {
     usuario_demandado_id: {
         type: DataTypes.INTEGER
     },
-    prioridad_id: {
+    prioridad_nivel: {
+        type: DataTypes.INTEGER
+    },
+    departamento_id: {
+        type: DataTypes.INTEGER
+    },
+    sucursal_id: {
         type: DataTypes.INTEGER
     },
     progreso: {
