@@ -1,13 +1,20 @@
 import { Usuario } from "../../models/UsuariosModel.js";
 import { errorRes, successRes, failRes, authErrorRes} from "../../types/responseTypes.js";
 import { atributosControl } from "../../types/sequelizeControl.js";
+import { encriptar } from "../../helpers/cifradoContrasena.js";
 
 
 export const crearUsuario = async(req, res) => {
     try {
-        const usuario = await Usuario.create(req.body);
+        const info = req.body;
 
-        if(usuario) 
+        const passwordEncr = await encriptar(info.password);
+
+        var payload = {...info, password: passwordEncr};
+
+        const usuario = await Usuario.create(payload);
+
+        if(!usuario) 
             return res.json(successRes('El Usuario Fue Creado Exitosamente'));
 
     } catch (error) {
@@ -117,7 +124,39 @@ export const obtenerUsuariosDepartamento = async(req, res) => {
 export const renovarContrasena = async(req, res) => {
     try {
         const usuarioId = req.params.id;
+        const { password } = req.body;
+
+        const passwordEncr = await encriptar(password);
     
+        const usuarioInfo = await Usuario.findAll({
+            where: {
+                id: usuarioId
+            }
+        });
+
+        var payload = usuarioInfo[0];
+
+        payload = {...payload, password: passwordEncr};
+
+        const newPass = await Usuario.update(payload, {
+            where: {
+                id: usuarioId
+            }
+        });
+
+        if(!newPass) 
+            return res.json(failRes('La contrasena no pude ser actualizada'));
+
+        res.json(successRes('Contrasena actualizada con exito'));
+    
+    } catch (error) {
+        res.json(errorRes(error));
+    }
+}
+
+export const desactivarUsuario = async(req, res) => {
+    try {
+        const usuarioId = req.params.id;
 
         const usuarioInfo = await Usuario.findAll({
             where: {
@@ -125,9 +164,25 @@ export const renovarContrasena = async(req, res) => {
             }
         });
 
+        var payload = {...usuarioInfo[0], activo: 0};
 
+        await Usuario.update(payload, {
+            where: {
+                id: usuarioId
+            }
+        })
+
+        res.json(successRes('El Usuario Se Desactivo Exitosamente!'));
 
     } catch (error) {
-        res.json(errorRes(error));
+        res.json(errorRes(error))
+    }
+}
+
+export const authUsuario = () => {
+    try {
+        //pendiente
+    } catch (error) {
+        res.json(errorRes(error))
     }
 }

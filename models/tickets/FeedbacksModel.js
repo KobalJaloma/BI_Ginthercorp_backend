@@ -22,6 +22,9 @@ export const Feedbacks = db_tickets.define('feedbacks', {
     visualizado: {
         type: DataTypes.INTEGER
     },
+    usuario_visualizado_id: {
+        type: DataTypes.INTEGER
+    },
     fecha: {
         type: DataTypes.DATE
     },
