@@ -390,7 +390,7 @@ export const detalladoMovimientos = async(req, res) => {
   const { fechaI, fechaF, unidad, sucursal, tipo, limit, index } = req.query;
   
   if(!fechaI || !fechaF)  
-  return res.json(errorRes('', 'Los Parametros Requerido, Son Inexistentes'));
+    return res.json(errorRes('', 'Los Parametros Requeridos, Son Inexistentes'));
 
   let condUnidad = unidad ? `AND a.id_unidad_negocio = '${unidad}'` : '';
   let condSucursal = sucursal ? `AND a.id_sucursal = '${sucursal}'` : '';
@@ -462,6 +462,43 @@ export const detalladoMovimientos = async(req, res) => {
   } catch (error) {
     res.json(errorRes(error));
   }
+}
+
+//Sumatoria de los ingresos por CXC filtrados
+export const presupuestoIngresos = async(req, res) => {
+  const {fechaI, fechaF, unidad, sucursal} = req.query;
+
+  if(!fechaI || !fechaF)
+    return res.json(errorRes('', 'Los Parametros Requeridos, Son Inexistentes'));
+
+  let condicionUnidad = unidad ? `AND cxc.id_unidad_negocio = ${unidad}`: '';
+  let condicionSucursal = sucursal ? `AND cxc.id_unidad_negocio = ${sucursal}`: '';
+
+  const query = `SELECT
+      cxc.id_unidad_negocio as id_unidad,
+        unit.descripcion as unidad,
+        cxc.id_sucursal,
+        suc.descr as sucursal,
+      SUM(cxc.total) as total_presupuesto
+    FROM cxc cxc
+    LEFT JOIN sucursales suc on suc.id_sucursal = cxc.id_sucursal
+    LEFT JOIN cat_unidades_negocio unit on unit.id = cxc.id_unidad_negocio
+    where 
+      1
+      AND cxc.vencimiento > '2023-10-01' 
+        AND cxc.vencimiento < '2023-10-31' 
+        AND cxc.vencimiento <> '0000-00-00' -- las facturas asi son pagadas
+        ${condicionUnidad}
+        ${condicionSucursal}
+    ${unidad ? 'GROUP BY cxc.id_sucursal, cxc.id_unidad_negocio' : ''}
+    ORDER BY cxc.id_unidad_negocio, cxc.id_sucursal desc`;
+
+    try {
+      const response = await db_denken.query(query);
+      res.json(response[0]);
+    } catch (error) {
+      res.json(errorRes(error));
+    }
 }
 
 
