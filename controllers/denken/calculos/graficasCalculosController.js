@@ -466,7 +466,7 @@ export const detalladoMovimientos = async(req, res) => {
 
 //Sumatoria de los ingresos por CXC filtrados
 export const presupuestoIngresos = async(req, res) => {
-  const {fechaI, fechaF, unidad, sucursal} = req.query;
+  const {fechaI, fechaF, unidad, sucursal, group} = req.query;
 
   if(!fechaI || !fechaF)
     return res.json(errorRes('', 'Los Parametros Requeridos, Son Inexistentes'));
@@ -490,7 +490,7 @@ export const presupuestoIngresos = async(req, res) => {
         AND cxc.vencimiento <> '0000-00-00' -- las facturas asi son pagadas
         ${condicionUnidad}
         ${condicionSucursal}
-    ${sucursal ? 'GROUP BY cxc.id_sucursal, cxc.id_unidad_negocio' : ''}
+    ${group ? 'GROUP BY cxc.id_sucursal, cxc.id_unidad_negocio' : ''}
     ORDER BY cxc.id_unidad_negocio, cxc.id_sucursal desc`;
 
     try {
