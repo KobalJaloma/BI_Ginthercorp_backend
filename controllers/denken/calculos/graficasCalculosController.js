@@ -486,7 +486,7 @@ export const presupuestoIngresos = async(req, res) => {
     where 
       1
       AND cxc.vencimiento > '${fechaI}' 
-        AND cxc.vencimiento < '${fechaF} 
+        AND cxc.vencimiento < '${fechaF}'
         AND cxc.vencimiento <> '0000-00-00' -- las facturas asi son pagadas
         ${condicionUnidad}
         ${condicionSucursal}
