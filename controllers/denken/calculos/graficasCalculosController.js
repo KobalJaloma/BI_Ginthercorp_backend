@@ -490,7 +490,7 @@ export const presupuestoIngresos = async(req, res) => {
         AND cxc.vencimiento <> '0000-00-00' -- las facturas asi son pagadas
         ${condicionUnidad}
         ${condicionSucursal}
-    ${unidad ? 'GROUP BY cxc.id_sucursal, cxc.id_unidad_negocio' : ''}
+    ${sucursal ? 'GROUP BY cxc.id_sucursal, cxc.id_unidad_negocio' : ''}
     ORDER BY cxc.id_unidad_negocio, cxc.id_sucursal desc`;
 
     try {
