@@ -485,8 +485,8 @@ export const presupuestoIngresos = async(req, res) => {
     LEFT JOIN cat_unidades_negocio unit on unit.id = cxc.id_unidad_negocio
     where 
       1
-      AND cxc.vencimiento > '2023-10-01' 
-        AND cxc.vencimiento < '2023-10-31' 
+      AND cxc.vencimiento > '${fechaI}' 
+        AND cxc.vencimiento < '${fechaF} 
         AND cxc.vencimiento <> '0000-00-00' -- las facturas asi son pagadas
         ${condicionUnidad}
         ${condicionSucursal}
