@@ -1,5 +1,5 @@
 import { db_denken } from "../../../config/db.js";
-import { errorRes, successRes } from "../../../types/responseTypes.js";
+import { errorRes, successRes, failRes } from "../../../types/responseTypes.js";
 
 //se utilizara then-catch por semantica practica
 
@@ -501,7 +501,48 @@ export const presupuestoIngresos = async(req, res) => {
     }
 }
 
+export const detalladoPrespupuestoIngresos = async(req, res) => {
+  try {
+    const {} = req.query;
 
+    const query = ``;
+
+  } catch (error) {
+    
+  }
+}
+
+export const totalesCxp = async(req, res) => {
+  const { fechaI, fechaF, unidad, sucursal } = req.query;
+
+  if(!fechaI || !fechaF)
+    return res.json(errorRes('','Los Parametros requeridos son Inexistentes'))
+
+  const query = `SELECT 
+    SUM(subtotal + iva) as total_cxc
+  from cxp 
+  where 1 and 
+    fecha >= :fechaI and fecha <= :fechaF
+    and estatus <> 'C'
+    and estatus <> 'L'
+  ${unidad ? `AND id_unidad_negocio = :unidad` : ''}
+  ${sucursal ? `and id_sucursal = :sucursal` : ''} 
+  -- group by estatus
+  -- limit 100`;
+
+  try {
+    const response = await db_denken.query(
+      query,
+      {
+        replacements: {fechaI,fechaF,unidad, sucursal}
+      }
+    );
+
+    res.json(response[0])
+  } catch (error) {
+    res.json(errorRes(error))
+  }
+}
 
 
 

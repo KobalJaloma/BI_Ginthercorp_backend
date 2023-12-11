@@ -160,6 +160,6 @@ export const preFinalizar = async(req, res) => {
 
     res.json(successRes(`Se Pre Finalizo La Tarea Con ID ${tareaId}`));
   } catch (error) {
-    res.json(errorRes(error))
+    res.json(errorRes(error));
   }
 }
